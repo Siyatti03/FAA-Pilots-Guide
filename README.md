@@ -45,7 +45,6 @@ Based on the scope of the project we are not use if we will need a backend, if s
 - Designing formatting: Figma  
 
 ### Resources:  
-- React Docs: [Quick Start – React](https://react.dev/learn)  
 - Node.js Doc: [Node.js v24.7.0 Documentation](https://nodejs.org/api/all.html)  
 - PHP Docs: [PHP Manual](https://www.php.net/manual/en/function.com-create-guid.php)  
 - Figma learning resource: [Learn Design & Design Basics | Figma](https://www.figma.com/resource-library/design-basics/)  
