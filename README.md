@@ -75,7 +75,7 @@ Based on the scope of the project we are not use if we will need a backend, if s
 - [x] Present frontend formatting ideas to Client  
 - [x] Finalize resources to be used for project (libraries, languages, repository, etc.)  
 - [ ] Implement key frontend implementations and continuous integration tests  
-  - [ ] Dropdown Menus  
+  - [X] Dropdown Menus  
   - [ ] Checklists  
   - [ ] Interactive page body  
 - [ ] Present initial prototype(s) to client  
