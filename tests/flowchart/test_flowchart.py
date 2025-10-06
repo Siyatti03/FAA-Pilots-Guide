@@ -9,59 +9,152 @@
 #       and document the results, noting which paths passed and failed.
 #   Tests implemented:
 #       Iterating through every expected path and outcome.
-
-import time
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
 from webdriver_manager.chrome import ChromeDriverManager
 
-# Define all expected paths and outcomes
+# All (placeholder) expected paths and outcomes
 test_cases = [
     (["yes", "hot"], "Recommend Hot Coffee"),
     (["yes", "iced"], "Recommend Iced Coffee"),
     (["no"], "Recommend Tea")
 ]
 
-def run_flow_test(driver, path, expected, silent):
+# ---- Variables ----
+LOCAL_HOST = "http://localhost:3000"
+BROWSER_LIST = ["chrome", "firefox", "edge"]
+WAIT_TIMEOUT = 10
+
+# ---- Download the necessary drivers (borrowed from Devi's test script) ----
+def get_driver(browser, headless=True):
+    '''
+    Return the necessary Selenium Webdriver for the the given browser
+    rtype: webdriver
+    browser- The browser being used
+    headless- default is false so the graphics don't load for the test
+    '''
+    options = None
+
+    # Select the correct browser
+    if browser.lower() == "chrome":
+        # import the chrome services needed for the specifying the location of the downloaded driver
+        # import the options for that browser, so we can make the test headless, ie no GUIs
+        # import the manager that takes care of the page
+        from selenium.webdriver.chrome.service import Service as ChromeService
+        from selenium.webdriver.chrome.options import Options
+        from webdriver_manager.chrome import ChromeDriverManager
+        options = Options()
+        if headless:
+            options.add_argument("--headless=new")
+        # Return the correct webdriver using the imported Chrome tools
+        return webdriver.Chrome(
+            service = ChromeService(ChromeDriverManager().install()),
+            options = options
+        )
+    
+    elif browser.lower() == "firefox":
+        # Firefox imports, see specifics above
+        from selenium.webdriver.firefox.service import Service as FirefoxService
+        from selenium.webdriver.firefox.options import Options
+        from webdriver_manager.firefox import GeckoDriverManager
+        options = Options()
+        if headless:
+            # Firefox is a little different with its API
+            options.add_argument("--headless")
+        # Return the correct webdriver using the imported Firefox tools
+        return webdriver.Firefox(
+            service = FirefoxService(GeckoDriverManager().install()),
+            options = options
+        )
+    
+    elif browser.lower() == "edge":
+        # Edge imports, see specifics above
+        from selenium.webdriver.edge.service import Service as EdgeService
+        from selenium.webdriver.edge.options import Options
+        from webdriver_manager.microsoft import EdgeChromiumDriverManager
+        options = Options()
+        if headless:
+            options.add_argument("--headless=new")
+        # Return the correct webdriver using the imported Edge tools
+        return webdriver.Edge(
+            service = EdgeService(EdgeChromiumDriverManager().install()),
+            options = options
+        )
+
+# --- New Helper Function for Waiting and Clicking ---
+def wait_for_and_click(driver, css_selector):
+    '''
+    Waits for an element to be clickable by its CSS selector and then clicks it.
+    '''
+    WebDriverWait(driver, WAIT_TIMEOUT).until(
+        EC.element_to_be_clickable((By.CSS_SELECTOR, css_selector))
+    ).click()
+
+# --- Test Runner ---
+def run_flow_test(driver, path, expected):
     '''
     Gets the locally hosted webpage, tries to click through the entire flowchart,
-    stores the results for later comparison with the test cases. Placeholder until we actually get 
+    stores the results for later comparison with the test cases.
+    Returns: (bool: passed, str: result)
     '''
-    driver.get("http://localhost:3000")  # todo replace with app URL
-    time.sleep(1)  # wait for page load
 
-    # Pushing buttons entirely based on the paths defined in the presumably-there JSON in path.
+    # Load the page and wait for the initial element to be present before starting.
+    driver.get(LOCAL_HOST)
+    
+    # Pushing buttons entirely based on the paths defined in the path.
     for answer in path:
-        btn = driver.find_element(By.CSS_SELECTOR, f'button[data-answer="{answer}"]')
-        btn.click()
-        time.sleep(0.5)
+        css_selector = f'button[data-answer="{answer}"]'
+        wait_for_and_click(driver, css_selector)
 
-    result_elem = driver.find_element(By.ID, "result")
+    # Wait explicitly for the final result element to be visible before reading its text.
+    result_locator = (By.ID, "result")
+    result_elem = WebDriverWait(driver, WAIT_TIMEOUT).until(
+        EC.visibility_of_element_located(result_locator)
+    )
+    
     result = result_elem.text.strip()
-
-    if(silent != True):
-        print("\nFLOWCHART TEST RESULTS:\n")
-        for path, expected in test_cases:
-            passed, result = run_flow_test(driver, path, expected)
-            if passed:
-                print(f"OK: Path {path} => {result}")
-            else:
-                print(f"!!ERR!!: Path {path} => Got '{result}', Expected '{expected}'")
 
     return result == expected, result
 
-if __name__ == "__main__":
-    # Enable headless mode
-    chrome_options = Options()
-    chrome_options.add_argument("--headless=new")  # modern headless mode
-    chrome_options.add_argument("--disable-gpu")  # optional, for Windows
-    chrome_options.add_argument("--window-size=1920,1080")
+# --- Full/Main Test Runner ---
+def flow_test_runner(browser="chrome", headless=True):
+    '''
+    Main function to run all flowchart tests and report results.
+    '''
+    print(f"Starting Flowchart Tests in {browser.capitalize()} (Headless: {headless})...")
+    
+    try:
+        # Get the driver
+        driver = get_driver(browser, headless=headless)
+        
+        print("\nFLOWCHART TEST RESULTS:\n")
+        all_passed = True
+        
+        # Iterate through all defined test cases
+        for path, expected in test_cases:
+            # Run the test for the specific path
+            passed, result = run_flow_test(driver, path, expected)
+            
+            if passed:
+                print(f"OK: Path {path} => Got '{result}' (Expected '{expected}')")
+            else:
+                all_passed = False
+                print(f"!!ERR!!: Path {path} => Got '{result}', Expected '{expected}'")
 
-    driver = webdriver.Chrome(
-        service=Service(ChromeDriverManager().install()),
-        options=chrome_options
-    )
-
-    driver.quit()
+        if all_passed:
+            print("\nAll tests passed.")
+        else:
+            print("\nSome tests failed.")
+            
+    except Exception as e:
+        print(f"\nAn error occurred during testing: {e}")
+        all_passed = False
+        
+    finally:
+        # Ensure the driver is closed even if an error occurs
+        if 'driver' in locals() and driver:
+            driver.quit()
