@@ -49,12 +49,6 @@ def checkPageReady(driver, url: str) -> None:
     driver.get(url)
     _wait(driver, EC.presence_of_element_located((By.TAG_NAME, "body")))
 
-
-def findElementById(driver, element_id: str, timeout: Optional[int] = None):
-    """Wait for an element by id and return it."""
-    return _wait(driver, EC.presence_of_element_located((By.ID, element_id)), timeout)
-
-
 def findElementByRoleExisting(
     driver,
     role: str,
