@@ -17,6 +17,13 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
 from webdriver_manager.chrome import ChromeDriverManager
 
+from unit_test.e2e_helpers import (
+    checkPageReady,
+    findElementById,
+    waitAndClick,
+    BASE_URL,
+)
+
 # All (placeholder) expected paths and outcomes
 test_cases = [
     (["yes", "hot"], "Recommend Hot Coffee"),
@@ -34,8 +41,8 @@ def get_driver(browser, headless=True):
     '''
     Return the necessary Selenium Webdriver for the the given browser
     rtype: webdriver
-    browser- The browser being used
-    headless- default is false so the graphics don't load for the test
+    browser - The browser being used
+    headless - default is false so the graphics don't load for the test
     '''
     options = None
 
@@ -85,37 +92,23 @@ def get_driver(browser, headless=True):
             options = options
         )
 
-# --- New Helper Function for Waiting and Clicking ---
-def wait_for_and_click(driver, css_selector):
-    '''
-    Waits for an element to be clickable by its CSS selector and then clicks it.
-    '''
-    WebDriverWait(driver, WAIT_TIMEOUT).until(
-        EC.element_to_be_clickable((By.CSS_SELECTOR, css_selector))
-    ).click()
-
 # --- Test Runner ---
 def run_flow_test(driver, path, expected):
-    '''
-    Gets the locally hosted webpage, tries to click through the entire flowchart,
-    stores the results for later comparison with the test cases.
+    """
+    Clicks through the flowchart following the given path and verifies result text.
     Returns: (bool: passed, str: result)
-    '''
+    """
 
-    # Load the page and wait for the initial element to be present before starting.
-    driver.get(LOCAL_HOST)
-    
-    # Pushing buttons entirely based on the paths defined in the path.
+    # use the e2e page ready helper to load and wait for page ready
+    checkPageReady(driver, LOCAL_HOST)
+
+    # Follow the defined button path
     for answer in path:
         css_selector = f'button[data-answer="{answer}"]'
-        wait_for_and_click(driver, css_selector)
+        waitAndClick(driver, css_selector)
 
-    # Wait explicitly for the final result element to be visible before reading its text.
-    result_locator = (By.ID, "result")
-    result_elem = WebDriverWait(driver, WAIT_TIMEOUT).until(
-        EC.visibility_of_element_located(result_locator)
-    )
-    
+    # Use helper to find final result element
+    result_elem = findElementById(driver, "result")
     result = result_elem.text.strip()
 
     return result == expected, result
@@ -126,6 +119,9 @@ def flow_test_runner(browser="chrome", headless=True):
     Main function to run all flowchart tests and report results.
     '''
     print(f"Starting Flowchart Tests in {browser.capitalize()} (Headless: {headless})...")
+
+    driver = None
+    all_passed = True
     
     try:
         # Get the driver
