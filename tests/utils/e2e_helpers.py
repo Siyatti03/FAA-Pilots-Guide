@@ -4,20 +4,20 @@ Author: Dien Mai
 Purpose: Shared Selenium E2E helpers for the FAA tool. These utilities make tests
          more readable, robust, and consistent across suites.
 Functions Provided:
-        1. checkPageReady(driver, url) - open a URL and wait until ready
-        2. findElementById(driver, element_id, timeout=None) - wait for element by id
-        3. findElementByRoleExisting(driver, role, name, timeout=None) - find by role + aria-label
-        4. waitAndClick(driver, css, timeout=None) - wait until clickable then click
+    1. checkPageReady(driver, url) - open a URL and wait until ready
+    2. findElementByRoleExisting(driver, role, name, timeout=None) - find by role + aria-label
+    3. waitAndClickByRole(driver, role, name, timeout=None) - wait until clickable then click (by role+aria-label)
 Config:
         - BASE_URL: app base URL (env: BASE_URL)
         - DEFAULT_TIMEOUT: wait timeout in seconds (env: E2E_TIMEOUT)
 Usage Examples:
         from unit_test.e2e_helpers import (
-            checkPageReady, findElementById, findElementByRoleExisting, waitAndClick, BASE_URL
+            checkPageReady, findElementByRoleExisting, waitAndClickByRole, BASE_URL
         )
         checkPageReady(driver, BASE_URL)
-        findElementById(driver, "FAA_Term_Search_Input").send_keys("airspeed\n")
-        waitAndClick(driver, 'button[data-answer="yes"]')
+        findElementByRoleExisting(driver, "textbox", "FAA Term Search").send_keys("airspeed\n")
+        # prefer role+aria-label when possible (more stable than CSS selectors)
+        waitAndClickByRole(driver, "button", "I have selected all my Conditions")
         findElementByRoleExisting(driver, "button", "Print this checklist").click()
 """
 
@@ -59,17 +59,19 @@ def findElementByRoleExisting(
     xpath = f"//*[@role='{role}' and @aria-label='{name}']"
     return _wait(driver, EC.presence_of_element_located((By.XPATH, xpath)), timeout)
 
+def waitAndClickByRole(driver, role: str, name: str, timeout: Optional[int] = None) -> None:
+    """Wait until an element with the given ARIA role and aria-label is clickable, then click it.
 
-def waitAndClick(driver, css: str, timeout: Optional[int] = None) -> None:
-    """Wait until a CSS target is clickable, then click it."""
-    _wait(driver, EC.element_to_be_clickable((By.CSS_SELECTOR, css)), timeout).click()
+    Example: waitAndClickByRole(driver, "button", "Print this checklist")
+    """
+    xpath = f"//*[@role='{role}' and @aria-label='{name}']"
+    _wait(driver, EC.element_to_be_clickable((By.XPATH, xpath)), timeout).click()
 
 
 __all__ = [
     "checkPageReady",
-    "findElementById",
     "findElementByRoleExisting",
-    "waitAndClick",
+    "waitAndClickByRole",
     "BASE_URL",
     "DEFAULT_TIMEOUT",
 ]
