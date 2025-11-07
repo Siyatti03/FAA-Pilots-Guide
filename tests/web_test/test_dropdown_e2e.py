@@ -11,12 +11,13 @@ Tests Implemented:
 # ---- Imports Required ----
 import os
 import time
+import pytest
 
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait, Select
 from selenium.webdriver.support import expected_conditions
 from unit_test.e2e_helpers import checkPageReady, BASE_URL, DEFAULT_TIMEOUT
-from unit_test.driver_manager import get_driver
+# from unit_test.driver_manager import get_driver
 # (ActionChains not needed here)
 
 # ---- Variables / Constants ----
@@ -91,71 +92,75 @@ def open_if_custom(driver, kind, dropdown):
         time.sleep(0.3)  # allow menu to render
 
 # ---- Test 1: Open dropdown, select first option, verify page remains stable ----
-def test_Dropdown_Select_First_Option():
+@pytest.mark.parametrize(
+    "browser_types_fixture",
+    [{"browser": b, "headless": True} for b in BROWSER_LIST],
+    indirect=True
+)
+def test_Dropdown_Select_First_Option(browser_types_fixture):
     '''
     Open dropdown, select first option, and verify page remains stable.
     '''
-    for browser in BROWSER_LIST:
-        driver = get_driver(browser, headless=True)
-        goto_home(driver)
+    driver = browser_types_fixture
+    goto_home(driver)
 
-        # Locate dropdown
-        kind, dropdown = find_dropdown(driver)
-        assert dropdown is not None, f"[{browser}] Could not find a dropdown on the page."
+    # Locate dropdown
+    kind, dropdown = find_dropdown(driver)
+    assert dropdown is not None, f"[{driver.capabilities.get('browserName', 'unknown')}] Could not find a dropdown on the page."
 
-        # Open if custom
-        open_if_custom(driver, kind, dropdown)
+    # Open if custom
+    open_if_custom(driver, kind, dropdown)
 
-        # Find options
-        options = find_options(driver, kind or "")
-        assert options, f"[{browser}] No options found for the dropdown."
+    # Find options
+    options = find_options(driver, kind or "")
+    assert options, f"[{driver.capabilities.get('browserName', 'unknown')}] No options found for the dropdown."
 
-        # Select first option
-        first = options[0]
-        if kind == "native":
-            sel = Select(dropdown)
-            sel.select_by_index(0)
-        else:
-            first.click()
+    # Select first option
+    first = options[0]
+    if kind == "native":
+        sel = Select(dropdown)
+        sel.select_by_index(0)
+    else:
+        first.click()
 
-        time.sleep(0.4)
-        assert driver.page_source, f"[{browser}] Page content disappeared after selection."
-
-        driver.quit()
+    time.sleep(0.4)
+    assert driver.page_source, f"[{driver.capabilities.get('browserName', 'unknown')}] Page content disappeared after selection."
 
 # ---- Test 2: Select up to three different options, verify stability after each ----
-def test_Dropdown_Select_Multiple_Options():
+@pytest.mark.parametrize(
+    "browser_types_fixture",
+    [{"browser": b, "headless": True} for b in BROWSER_LIST],
+    indirect=True
+)
+def test_Dropdown_Select_Multiple_Options(browser_types_fixture):
     '''
     Try selecting up to three different options, verifying the page stays stable.
     '''
-    for browser in BROWSER_LIST:
-        driver = get_driver(browser, headless=True)
-        goto_home(driver)
+    driver = browser_types_fixture
+    goto_home(driver)
 
-        kind, dropdown = find_dropdown(driver)
-        assert dropdown is not None, f"[{browser}] Dropdown not found."
+    kind, dropdown = find_dropdown(driver)
+    assert dropdown is not None, f"[{driver.capabilities.get('browserName', 'unknown')}] Dropdown not found."
 
-        # For custom dropdowns, open once before reading options
-        open_if_custom(driver, kind, dropdown)
+    # For custom dropdowns, open once before reading options
+    open_if_custom(driver, kind, dropdown)
 
-        options = find_options(driver, kind or "")
-        assert options, f"[{browser}] No options found in dropdown."
+    options = find_options(driver, kind or "")
+    assert options, f"[{driver.capabilities.get('browserName', 'unknown')}] No options found in dropdown."
 
-        # Select first 3 options
-        for i in range(min(3, len(options))):
-            if kind != "native":
-                # Reopen for custom dropdowns
-                open_if_custom(driver, kind, dropdown)
-                options = find_options(driver, kind or "")
+    # Select first 3 options
+    for i in range(min(3, len(options))):
+        if kind != "native":
+            # Reopen for custom dropdowns
+            open_if_custom(driver, kind, dropdown)
+            options = find_options(driver, kind or "")
 
-            opt = options[i]
-            if kind == "native":
-                sel = Select(dropdown)
-                sel.select_by_index(i)
-            else:
-                opt.click()
+        opt = options[i]
+        if kind == "native":
+            sel = Select(dropdown)
+            sel.select_by_index(i)
+        else:
+            opt.click()
 
-            time.sleep(0.4)
-            assert driver.page_source, f"[{browser}] Page broke after selecting option {i+1}."
-
-        driver.quit()
+        time.sleep(0.4)
+        assert driver.page_source, f"[{driver.capabilities.get('browserName', 'unknown')}] Page broke after selecting option {i+1}."

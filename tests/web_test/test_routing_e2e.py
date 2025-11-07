@@ -16,12 +16,13 @@ Tests Implemented:
 # ---- Imports Required ----
 import os
 import time
+import pytest
 
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions
 from unit_test.e2e_helpers import checkPageReady, BASE_URL, DEFAULT_TIMEOUT
-from unit_test.driver_manager import get_driver
+# from unit_test.driver_manager import get_driver
 
 # ---- Variables / Constants ----
 LOCAL_HOST = os.getenv("BASE_URL", BASE_URL).rstrip("/")
@@ -76,91 +77,98 @@ def internal_links(driver):
     return out
 
 # ---- Test 1: Internal link navigation ----
-def test_Routing_Internal_Links_Work():
+@pytest.mark.parametrize(
+    "browser_types_fixture",
+    [{"browser": b, "headless": True} for b in BROWSER_LIST],
+    indirect=True
+)
+def test_Routing_Internal_Links_Work(browser_types_fixture):
     '''
     Click up to three internal links and verify that the target pages load
     and are not obvious error pages. Return to home between clicks.
     '''
-    for browser in BROWSER_LIST:
-        driver = get_driver(browser, headless=True)
-        goto(driver, "/")
+    driver = browser_types_fixture
+    goto(driver, "/")
 
-        links = internal_links(driver)
-        if links:
-            for i, link in enumerate(links[:3], start=1):
-                link.click()
-                wait_ready(driver)
-                assert driver.page_source, f"[{browser}] Page broke after clicking link #{i}"
-                goto(driver, "/")  # Return to home
-
-        driver.quit()
+    links = internal_links(driver)
+    if links:
+        for i, link in enumerate(links[:3], start=1):
+            link.click()
+            wait_ready(driver)
+            assert driver.page_source, f"[{driver.capabilities.get('browserName', 'unknown')}] Page broke after clicking link #{i}"
+            goto(driver, "/")  # Return to home
 
 # ---- Test 2: Direct URL navigation ----
-def test_Routing_Direct_URLs_Load_Content():
+@pytest.mark.parametrize(
+    "browser_types_fixture",
+    [{"browser": b, "headless": True} for b in BROWSER_LIST],
+    indirect=True
+)
+def test_Routing_Direct_URLs_Load_Content(browser_types_fixture):
     '''
     Navigate directly to a set of known routes and verify the page loads with content.
     '''
-    for browser in BROWSER_LIST:
-        driver = get_driver(browser, headless=True)
+    driver = browser_types_fixture
 
-        for route in ROUTE_LIST[:3]:  # Test first 3 routes only
-            goto(driver, route)
-            assert driver.page_source, f"[{browser}] Empty content for route {route}"
-
-        driver.quit()
+    for route in ROUTE_LIST[:3]:  # Test first 3 routes only
+        goto(driver, route)
+        assert driver.page_source, f"[{driver.capabilities.get('browserName', 'unknown')}] Empty content for route {route}"
 
 # ---- Test 3: Browser back/forward/refresh behavior ----
-def test_Routing_Back_Forward_Refresh_Are_Stable():
+@pytest.mark.parametrize(
+    "browser_types_fixture",
+    [{"browser": b, "headless": True} for b in BROWSER_LIST],
+    indirect=True
+)
+def test_Routing_Back_Forward_Refresh_Are_Stable(browser_types_fixture):
     '''
     Open home, click a link, then use browser back/forward/refresh.
     Verify pages load and content remains present at each step.
     '''
-    for browser in BROWSER_LIST:
-        driver = get_driver(browser, headless=True)
-        goto(driver, "/")
+    driver = browser_types_fixture
+    goto(driver, "/")
 
-        links = internal_links(driver)
-        if not links:
-            driver.quit()
-            continue
+    links = internal_links(driver)
+    if not links:
+        pytest.skip("No internal links available for back/forward/refresh test")
 
-        # Click first link
-        links[0].click()
-        wait_ready(driver)
-        assert driver.page_source, f"[{browser}] Empty content after click"
+    # Click first link
+    links[0].click()
+    wait_ready(driver)
+    assert driver.page_source, f"[{driver.capabilities.get('browserName', 'unknown')}] Empty content after click"
 
-        # Back
-        driver.back()
-        wait_ready(driver)
-        assert driver.page_source, f"[{browser}] Empty content after back"
+    # Back
+    driver.back()
+    wait_ready(driver)
+    assert driver.page_source, f"[{driver.capabilities.get('browserName', 'unknown')}] Empty content after back"
 
-        # Forward
-        driver.forward()
-        wait_ready(driver)
-        assert driver.page_source, f"[{browser}] Empty content after forward"
+    # Forward
+    driver.forward()
+    wait_ready(driver)
+    assert driver.page_source, f"[{driver.capabilities.get('browserName', 'unknown')}] Empty content after forward"
 
-        # Refresh
-        driver.refresh()
-        wait_ready(driver)
-        assert driver.page_source, f"[{browser}] Empty content after refresh"
-
-        driver.quit()
+    # Refresh
+    driver.refresh()
+    wait_ready(driver)
+    assert driver.page_source, f"[{driver.capabilities.get('browserName', 'unknown')}] Empty content after refresh"
 
 # ---- Test 4: Basic load performance & elements ----
-def test_Routing_Page_Load_Performance_And_Elements():
+@pytest.mark.parametrize(
+    "browser_types_fixture",
+    [{"browser": b, "headless": True} for b in BROWSER_LIST],
+    indirect=True
+)
+def test_Routing_Page_Load_Performance_And_Elements(browser_types_fixture):
     '''
     Measure a simple load time for home, ensure non-empty content, and
     check for presence of a title and any headings.
     '''
-    for browser in BROWSER_LIST:
-        driver = get_driver(browser, headless=True)
+    driver = browser_types_fixture
 
-        start = time.time()
-        goto(driver, "/")
-        load_time = time.time() - start
+    start = time.time()
+    goto(driver, "/")
+    load_time = time.time() - start
 
-        print(f"[{browser}] Home loaded in {load_time:.2f}s.")
-        assert driver.page_source, f"[{browser}] Empty page content on home."
-        assert driver.title, f"[{browser}] No title found"
-
-        driver.quit()
+    print(f"[{driver.capabilities.get('browserName', 'unknown')}] Home loaded in {load_time:.2f}s.")
+    assert driver.page_source, f"[{driver.capabilities.get('browserName', 'unknown')}] Empty page content on home."
+    assert driver.title, f"[{driver.capabilities.get('browserName', 'unknown')}] No title found"

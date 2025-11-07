@@ -15,6 +15,7 @@ Tests Implemented:
 # ---- Imports Required ----
 import os
 import time
+import pytest
 
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys  # kept for parity; not required in all tests
@@ -22,7 +23,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions
 from selenium.webdriver import ActionChains
 from unit_test.e2e_helpers import checkPageReady, BASE_URL, DEFAULT_TIMEOUT
-from unit_test.driver_manager import get_driver
+# from unit_test.driver_manager import get_driver  # not needed when using the fixture
 
 # ---- Variables / Constants ----
 LOCAL_HOST = os.getenv("BASE_URL", BASE_URL)
@@ -79,103 +80,113 @@ def find_target_parts(driver):
     return found
 
 # ---- Test 1: Presence and discoverability ----
-def test_BodyMap_Presence_And_Targets():
+@pytest.mark.parametrize(
+    "browser_types_fixture",
+    [{"browser": b, "headless": True} for b in BROWSER_LIST],
+    indirect=True
+)
+def test_BodyMap_Presence_And_Targets(browser_types_fixture):
     '''
     Ensure the body map is present and that we can discover the known target areas.
     '''
-    for browser in BROWSER_LIST:
-        driver = get_driver(browser, headless=True)
-        goto_home(driver)
+    driver = browser_types_fixture
+    goto_home(driver)
 
-        body_map = find_body_map(driver)
-        assert body_map is not None, f"[{browser}] Body map not found using known selectors."
+    body_map = find_body_map(driver)
+    assert body_map is not None, f"[{driver.capabilities.get('browserName', 'unknown')}] Body map not found using known selectors."
 
-        targets = find_target_parts(driver)
-        assert targets, f"[{browser}] No body map target regions found."
-
-        driver.quit()
+    targets = find_target_parts(driver)
+    assert targets, f"[{driver.capabilities.get('browserName', 'unknown')}] No body map target regions found."
 
 # ---- Test 2: Click a known target and verify info appears ----
-def test_BodyMap_Click_Known_Target():
+@pytest.mark.parametrize(
+    "browser_types_fixture",
+    [{"browser": b, "headless": True} for b in BROWSER_LIST],
+    indirect=True
+)
+def test_BodyMap_Click_Known_Target(browser_types_fixture):
     '''
     Clicking a known target should reveal info (or at least not break the page).
     '''
-    for browser in BROWSER_LIST:
-        driver = get_driver(browser, headless=True)
-        goto_home(driver)
+    driver = browser_types_fixture
+    goto_home(driver)
 
-        targets = find_target_parts(driver)
-        assert targets, f"[{browser}] No target regions to click."
+    targets = find_target_parts(driver)
+    assert targets, f"[{driver.capabilities.get('browserName', 'unknown')}] No target regions to click."
 
-        # Click the first available target
-        first_target = list(targets.values())[0]
-        first_target.click()
-        time.sleep(0.75)
+    # Click the first available target
+    first_target = list(targets.values())[0]
+    first_target.click()
+    time.sleep(0.75)
 
-        # Verify page still works
-        assert driver.page_source, f"[{browser}] Page broke after clicking target."
-
-        driver.quit()
+    # Verify page still works
+    assert driver.page_source, f"[{driver.capabilities.get('browserName', 'unknown')}] Page broke after clicking target."
 
 # ---- Test 3: Multiple clicks stay stable ----
-def test_BodyMap_Multiple_Clicks_Stable():
+@pytest.mark.parametrize(
+    "browser_types_fixture",
+    [{"browser": b, "headless": True} for b in BROWSER_LIST],
+    indirect=True
+)
+def test_BodyMap_Multiple_Clicks_Stable(browser_types_fixture):
     '''
     Click multiple targets sequentially and verify the page remains responsive.
     '''
-    for browser in BROWSER_LIST:
-        driver = get_driver(browser, headless=True)
-        goto_home(driver)
+    driver = browser_types_fixture
+    goto_home(driver)
 
-        targets = find_target_parts(driver)
-        assert targets, f"[{browser}] No targets found for multi-click test."
+    targets = find_target_parts(driver)
+    assert targets, f"[{driver.capabilities.get('browserName', 'unknown')}] No targets found for multi-click test."
 
-        # Click first 3 targets
-        for i, el in enumerate(list(targets.values())[:3]):
-            el.click()
-            time.sleep(0.5)
-            assert driver.page_source, f"[{browser}] Page broke after click {i+1}."
-
-        driver.quit()
+    # Click first 3 targets
+    for i, el in enumerate(list(targets.values())[:3]):
+        el.click()
+        time.sleep(0.5)
+        assert driver.page_source, f"[{driver.capabilities.get('browserName', 'unknown')}] Page broke after click {i+1}."
 
 # ---- Test 4: Hover stability ----
-def test_BodyMap_Hover_Does_Not_Break_UI():
+@pytest.mark.parametrize(
+    "browser_types_fixture",
+    [{"browser": b, "headless": True} for b in BROWSER_LIST],
+    indirect=True
+)
+def test_BodyMap_Hover_Does_Not_Break_UI(browser_types_fixture):
     '''
     Hover over targets and verify that the UI remains stable.
     '''
-    for browser in BROWSER_LIST:
-        driver = get_driver(browser, headless=True)
-        goto_home(driver)
+    driver = browser_types_fixture
+    goto_home(driver)
 
-        targets = find_target_parts(driver)
-        assert targets, f"[{browser}] No targets available to hover."
+    targets = find_target_parts(driver)
+    assert targets, f"[{driver.capabilities.get('browserName', 'unknown')}] No targets available to hover."
 
-        actions = ActionChains(driver)
-        for el in list(targets.values())[:2]:  # Hover over first 2 targets
-            actions.move_to_element(el).perform()
-            time.sleep(0.5)
-            assert driver.page_source, f"[{browser}] Page broke after hover."
-
-        driver.quit()
+    actions = ActionChains(driver)
+    for el in list(targets.values())[:2]:  # Hover over first 2 targets
+        actions.move_to_element(el).perform()
+        time.sleep(0.5)
+        assert driver.page_source, f"[{driver.capabilities.get('browserName', 'unknown')}] Page broke after hover."
 
 # ---- Test 5: Responsive sizes ----
-def test_BodyMap_Responsive_Visibility():
+@pytest.mark.parametrize(
+    "browser_types_fixture",
+    [{"browser": b, "headless": True} for b in BROWSER_LIST],
+    indirect=True
+)
+def test_BodyMap_Responsive_Visibility(browser_types_fixture):
     '''
     Verify the body map and targets are visible across desktop/tablet/mobile sizes.
     '''
+    driver = browser_types_fixture
+    goto_home(driver)
+
     sizes = [(1280, 720), (768, 1024), (375, 667)]
 
-    for browser in BROWSER_LIST:
-        driver = get_driver(browser, headless=True)
-        goto_home(driver)
+    for w, h in sizes:
+        driver.set_window_size(w, h)
+        time.sleep(0.5)
 
-        for w, h in sizes:
-            driver.set_window_size(w, h)
-            time.sleep(0.5)
+        body_map = find_body_map(driver)
+        assert body_map and body_map.is_displayed(), f"[{driver.capabilities.get('browserName', 'unknown')}] Body map not visible at {w}x{h}."
 
-            body_map = find_body_map(driver)
-            assert body_map and body_map.is_displayed(), f"[{browser}] Body map not visible at {w}x{h}."
-
-            targets = find_target_parts(driver)
-            assert targets, f"[{browser}] No targets found at {w}x{h}."
-
-        driver.quit()
+        targets = find_target_parts(driver)
+        assert targets, f"[{driver.capabilities.get('browserName', 'unknown')}] No targets found at {w}x{h}."
