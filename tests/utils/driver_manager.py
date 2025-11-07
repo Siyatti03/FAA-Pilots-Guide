@@ -19,7 +19,6 @@ BROWSER_DIR = os.path.join(ROOT_DIR, "binaries")
 BROWSER_BINARIES = { # Known binary names for each browser (Linux, MacOS, Windows), excepting safari
         "chrome": ["chrome", "chrome.exe", "chromium", "chromium.exe"],
         "firefox": ["firefox", "firefox.exe"],
-        # "edge": ["microsoft-edge", "msedge", "msedge.exe", "microsoftedge", "microsoftedge.exe"],
 }
 
 # ---- Find the Browser Binary ----
@@ -35,11 +34,16 @@ def find_browser_path(browser_name):
         # Safari does NOT need to find the binary, the driver handles this
         return None 
 
+    # Windows-specific case for testing Edge Browser
+    if browser_name == "edge" and platform.system() == "Windows":
+        # Let the driver handle finding the edge binary because only ONE OS can test Edge
+        return None 
+
     binary_candidates = BROWSER_BINARIES.get(browser_name.lower(), [])
     if not binary_candidates:
         raise ValueError(f"Unsupported browser: {browser_name}")
     
-    # Windows/Linux/MacOS non-Safari search
+    # Window/Linux/MacOS non-Safari/non-Edge search
     for root, _, files in os.walk(BROWSER_DIR):
         for file in files:
             if file in binary_candidates:
@@ -67,10 +71,14 @@ def download_driver(browser):
     elif browser.lower() == "firefox":
         from webdriver_manager.firefox import GeckoDriverManager
         driver_path = GeckoDriverManager().install()
-    
+
+    # Microsoft requires manual download and adding to path, unfortunately I can't find anything that says that
+    # selenium webdriver_manager can support automatic download/management
+    '''
     elif browser.lower() == "edge":
         from webdriver_manager.microsoft import EdgeChromiumDriverManager
         driver_path = EdgeChromiumDriverManager().install()
+    '''
 
     # There is nothing for Safari to download as MacOS already has it on all devices
     
@@ -125,6 +133,23 @@ def start_driver(browser_path, browser, headless = True):
         except:
             print(f"ERROR: Unable to create FireFox webdriver") 
             return None
+        
+    elif browser.lower() == "edge":
+        # Edge imports, see specifics above
+        from selenium.webdriver.edge.service import Service as EdgeService
+        from selenium.webdriver.edge.options import Options
+        options = Options()
+        if headless:
+            options.add_argument("--headless=new")
+        # Try to return the correct webdriver using the imported Edge tools, otherwise fail
+        try:
+            return webdriver.Edge(
+                service = EdgeService(),
+                options = options
+            )
+        except:
+            print(f"ERROR: Unable to create Edge webdriver") 
+            return None
     
     elif browser.lower() == "safari":
         # Safari has the webdriver already, no need to download, also no headless option, and no need to find binary
@@ -137,26 +162,6 @@ def start_driver(browser_path, browser, headless = True):
     else:
         print(f"ERROR: Unsupported Browser=={browser}") 
         return None
-
-    '''
-    elif browser.lower() == "edge":
-        # Edge imports, see specifics above
-        from selenium.webdriver.edge.service import Service as EdgeService
-        from selenium.webdriver.edge.options import Options
-        options = Options()
-        if headless:
-            options.add_argument("--headless=new")
-        options.binary_location = browser_path
-        # Try to return the correct webdriver using the imported Edge tools, otherwise fail
-        try:
-            return webdriver.Edge(
-                service = EdgeService(),
-                options = options
-            )
-        except:
-            print(f"ERROR: Unable to create Edge webdriver") 
-            return None
-    '''
     
 # ---- Check for WebDrivers Function ----
 def get_driver(browser_type, headless):
