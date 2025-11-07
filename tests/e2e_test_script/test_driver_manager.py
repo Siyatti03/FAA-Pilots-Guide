@@ -10,29 +10,26 @@ What needs to be changed: Eventually this will need to be run on our actual page
 # ---- Imports ----
 import os
 import pytest
-import sys
 
 # ---- Paths ----
 ROOT_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 HTML_DIR = os.path.join(ROOT_DIR, "tests", "e2e_test_script", "HTML_Page")
 
 # ---- Variables ----
-if sys.argv[0] == "safari": # This is changed to account for using safari outside an image, because it can't be downloaded
-    BROWSER_LIST = [
-        {"browser": "safari", "headless": True},
-    ]
-else:
-    BROWSER_LIST = [
-        {"browser": "chrome", "headless": True},
-        {"browser": "firefox", "headless": True},
-        # {"browser": "edge", "headless": True}
-    ]
 LOCAL_HOST = "file://" + os.path.join(HTML_DIR, "index.html")
+# This is the superset of all browsers, to be filtered by the fixture
+BROWSER_SUPERLIST = [{"browser": "chrome", "headless": True},
+                    {"browser": "firefox", "headless": True},
+                    {"browser": "safari", "headless": True},
+                    {"browser": "edge", "headless": True},]
 
 # ---- Test function ----
-@pytest.mark.parametrize("browser_types_fixture", BROWSER_LIST, indirect = True) # Indirect allows parameterizing fixtures, browser_types_fixture
+@pytest.mark.parametrize(
+    "browser_types_fixture",
+    BROWSER_SUPERLIST,
+    indirect=True) # Indirect allows parameterizing fixtures, browser_types_fixture
 def test_scripts_work(browser_types_fixture):
-    # Pytest will parameterize and pass the current browser/headless element into the fixture "browser_types_fixture"
+    # Pytest will parameterize and pass the current --browser element and use that to skip any not included browsers
     driver = browser_types_fixture
     driver.get(LOCAL_HOST)
     assert "Hello World" in driver.title
