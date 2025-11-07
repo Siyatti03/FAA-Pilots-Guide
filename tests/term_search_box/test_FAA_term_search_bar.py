@@ -15,9 +15,6 @@ Tests Implemented:
 # ---- Imports ----
 import sys
 import os
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions
-from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 import pytest
 
@@ -33,6 +30,11 @@ import e2e_helpers as e2ehelp
 
 # ---- Variables ----
 LOCAL_HOST = "http://localhost:3000"
+# This is the superset of all browsers, to be filtered by the fixture
+BROWSER_SUPERLIST = [{"browser": "chrome", "headless": True},
+                    {"browser": "firefox", "headless": True},
+                    {"browser": "safari", "headless": True},
+                    {"browser": "edge", "headless": True},]
 
 # ---- ARIA XPATHs ----
 SEARCH_BOX_ROLE = "searchbox"
@@ -44,20 +46,12 @@ SEARCH_BOX_RESULTS_LIST_XPATH = f"//*[@role={SEARCH_BOX_RESULTS_CONTAINER_ROLE} 
 SEARCH_BOX_RESULTS_LIST_ROLE = "list"
 SEARCH_BOX_RESULTS_LIST_LABEL= "Term_Search_Results_List"
 SEARCH_BOX_RESULTS_LIST_XPATH = f"//*[@role={SEARCH_BOX_RESULTS_LIST_ROLE} and @aria-label={SEARCH_BOX_RESULTS_LIST_LABEL}]"
-
-if sys.argv[0] == "safari": # This is changed to account for using safari outside an image, because it can't be downloaded
-    BROWSER_LIST = [
-        {"browser": "safari", "headless": True},
-    ]
-else:
-    BROWSER_LIST = [
-        {"browser": "chrome", "headless": True},
-        {"browser": "firefox", "headless": True},
-        # {"browser": "edge", "headless": True}
-    ]
     
 # ---- Empty Input Test ----
-@pytest.mark.parametrize("browser_types_fixture", BROWSER_LIST, indirect = True) # Indirect allows parameterizing fixtures, browser_types_fixture
+@pytest.mark.parametrize(
+    "browser_types_fixture",
+    BROWSER_SUPERLIST,
+    indirect=True) # Indirect allows parameterizing fixtures, browser_types_fixture
 def test_Empty_Input(browser_types_fixture):
     '''
     This function tests the empty input for all browsers
@@ -121,7 +115,10 @@ Unsafe_Map = {
     "unsafeInput2":"unsafeOutput2",
 }
 
-@pytest.mark.parametrize("browser_types_fixture", BROWSER_LIST, indirect = True)
+@pytest.mark.parametrize(
+    "browser_types_fixture",
+    BROWSER_SUPERLIST,
+    indirect=True) # Indirect allows parameterizing fixtures, browser_types_fixture
 @pytest.mark.parametrize("input, output", Unsafe_Map.items())
 def test_Unsafe_Inputs(browser_types_fixture, input, output):
     '''
@@ -138,7 +135,10 @@ def test_Unsafe_Inputs(browser_types_fixture, input, output):
     assert results in output, f"Unsafe Input Test Failed: input = {input}, output = {results}, expected = {output}"
 
 # ---- Unknown input test ----
-@pytest.mark.parametrize("browser_types_fixture", BROWSER_LIST, indirect = True)
+@pytest.mark.parametrize(
+    "browser_types_fixture",
+    BROWSER_SUPERLIST,
+    indirect=True) # Indirect allows parameterizing fixtures, browser_types_fixture
 def test_Unknown_Input(browser_types_fixture):
     '''
     Tests an unknown input which should show no results
@@ -154,7 +154,10 @@ def test_Unknown_Input(browser_types_fixture):
     assert results in output, f"Unknown Input Test Failed: input = {input}, output = {results}, expected = {output}"
 
 # ---- Known input test ----
-@pytest.mark.parametrize("browser_types_fixture", BROWSER_LIST, indirect = True)
+@pytest.mark.parametrize(
+    "browser_types_fixture",
+    BROWSER_SUPERLIST,
+    indirect=True) # Indirect allows parameterizing fixtures, browser_types_fixture
 def test_Known_Input(browser_types_fixture):
     '''
     Tests an known input which should show correct result
@@ -182,7 +185,10 @@ Unusual_Map = {
     "@":"NoResults",
 }
 
-@pytest.mark.parametrize("browser_types_fixture", BROWSER_LIST, indirect = True)
+@pytest.mark.parametrize(
+    "browser_types_fixture",
+    BROWSER_SUPERLIST,
+    indirect=True) # Indirect allows parameterizing fixtures, browser_types_fixture
 @pytest.mark.parametrize("input, output", Unusual_Map.items())
 def test_Unusual_Inputs(browser_types_fixture, input, output):
     '''
