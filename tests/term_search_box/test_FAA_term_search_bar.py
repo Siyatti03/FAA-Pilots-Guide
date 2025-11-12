@@ -29,7 +29,11 @@ UTILS_DIR = os.path.join(ROOT_DIR, "tests", "utils")
 sys.path.append(UTILS_DIR)
 print(sys.path)
 
-import e2e_helpers as e2ehelp
+from e2e_helpers import (
+    checkPageReady,            # Function to check the page is ready for tests
+    findElementByRoleExisting, # Function to support using ARIA to wait on components to appear
+    DEFAULT_TIMEOUT,           # Import variable to support timeouts
+)
 
 # ---- Variables ----
 LOCAL_HOST = "http://localhost:3000"
@@ -67,23 +71,23 @@ def test_Empty_Input(browser_types_fixture):
     driver.get(LOCAL_HOST)
 
     # Check the page exists
-    e2ehelp.checkPageReady(driver, LOCAL_HOST)
+    checkPageReady(driver, LOCAL_HOST)
 
     # Get the search box element, using default timeout
-    search_box = e2ehelp.findElementByRoleExisting(driver, SEARCH_BOX_ROLE, SEARCH_BOX_LABEL, None)
+    search_box = findElementByRoleExisting(driver, SEARCH_BOX_ROLE, SEARCH_BOX_LABEL, DEFAULT_TIMEOUT)
     
     # Empty the search box
     search_box.clear()
 
     # Get current state of results container
-    results_container = e2ehelp.findElementByRoleExisting(driver, SEARCH_BOX_RESULTS_CONTAINER_ROLE, SEARCH_BOX_RESULTS_CONTAINER_LABEL, None)
+    results_container = findElementByRoleExisting(driver, SEARCH_BOX_RESULTS_CONTAINER_ROLE, SEARCH_BOX_RESULTS_CONTAINER_LABEL, DEFAULT_TIMEOUT)
     prev_results = results_container.text
 
     search_box.send_keys(Keys.RETURN)
 
     # Wait for a few seconds, then pull the container
     driver.implict_wait(10)
-    current_results = e2ehelp.findElementByRoleExisting(driver, SEARCH_BOX_RESULTS_CONTAINER_ROLE, SEARCH_BOX_RESULTS_CONTAINER_LABEL, None).text 
+    current_results = findElementByRoleExisting(driver, SEARCH_BOX_RESULTS_CONTAINER_ROLE, SEARCH_BOX_RESULTS_CONTAINER_LABEL, DEFAULT_TIMEOUT).text 
 
     assert current_results == prev_results, f"Empty Input Test Failed: Previous Container = {prev_results}, Current Container = {current_results}"
 
@@ -95,10 +99,10 @@ def helper_func_tests(driver, input):
     param: The input which needs to be passed into the search box
     '''
     # Check the page exists
-    e2ehelp.checkPageReady(driver, LOCAL_HOST)
+    checkPageReady(driver, LOCAL_HOST)
 
     # Get the search box element, using default timeout
-    search_box = e2ehelp.findElementByRoleExisting(driver, SEARCH_BOX_ROLE, SEARCH_BOX_LABEL, None)
+    search_box = findElementByRoleExisting(driver, SEARCH_BOX_ROLE, SEARCH_BOX_LABEL, DEFAULT_TIMEOUT)
 
     # Input the given input
     search_box.clear()
@@ -106,7 +110,7 @@ def helper_func_tests(driver, input):
     search_box.send_keys(Keys.RETURN)
 
     # Wait for the results
-    results = e2ehelp.findElementByRoleExisting(driver, SEARCH_BOX_RESULTS_LIST_ROLE, SEARCH_BOX_RESULTS_LIST_LABEL, None)
+    results = findElementByRoleExisting(driver, SEARCH_BOX_RESULTS_LIST_ROLE, SEARCH_BOX_RESULTS_LIST_LABEL, DEFAULT_TIMEOUT)
     return results.text
 
 # ---- Unsafe Inputs Map + Function ----
