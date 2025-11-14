@@ -10,18 +10,19 @@ What needs to be changed: Eventually this will need to be run on our actual page
 # ---- Imports ----
 import os
 import pytest
+import sys
 
 # ---- Paths ----
 ROOT_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 HTML_DIR = os.path.join(ROOT_DIR, "tests", "e2e_test_script", "HTML_Page")
+UTILS_DIR = os.path.join(ROOT_DIR, "tests", "utils")
 
 # ---- Variables ----
 LOCAL_HOST = "file://" + os.path.join(HTML_DIR, "index.html")
 # This is the superset of all browsers, to be filtered by the fixture
-BROWSER_SUPERLIST = [{"browser": "chrome", "headless": True},
-                    {"browser": "firefox", "headless": True},
-                    {"browser": "safari", "headless": True},
-                    {"browser": "edge", "headless": True},]
+sys.path.append(UTILS_DIR)
+from driver_variables import BROWSER_SUPERLIST
+
 
 # ---- Test function ----
 @pytest.mark.parametrize(
