@@ -23,6 +23,7 @@ from e2e_helpers import (
     DEFAULT_TIMEOUT,           # default wait timeout 
     findElementById,            # By.ID wrapper with wait
 )
+from driver_variables import BROWSER_SUPERLIST
 
 
 # Reusable JS snippet: stub window.print to count calls and seed payload; prevents native dialog.
@@ -76,10 +77,7 @@ def extract_payload_from_dom(browser_types_fixture):
 
 @pytest.mark.parametrize(
     "browser_types_fixture",
-    [
-        {"browser": "chrome",  "headless": True},
-        {"browser": "firefox", "headless": True},
-    ],
+    BROWSER_SUPERLIST,
     indirect=True
 )
 
@@ -128,10 +126,7 @@ def test_anxiety_print_payload_variables(browser_types_fixture):
 
 @pytest.mark.parametrize(
     "browser_types_fixture",
-    [
-        {"browser": "chrome",  "headless": True},
-        {"browser": "firefox", "headless": True},
-    ],
+    BROWSER_SUPERLIST,
     indirect=True
 )
 
