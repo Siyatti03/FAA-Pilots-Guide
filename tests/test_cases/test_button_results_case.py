@@ -31,7 +31,7 @@ from e2e_helpers import (
     BASE_URL,                  # shared base URL         
     DEFAULT_TIMEOUT,           # default wait timeout 
 )
-
+from driver_variables import BROWSER_SUPERLIST
 
 # function to click button by its text
 # function to get result title element
@@ -60,10 +60,7 @@ def choose_condition(driver, key):
 # Tests the "Anxiety & Depression Guide" path with outcome
 @pytest.mark.parametrize(
     "browser_types_fixture",
-    [
-        {"browser": "chrome",  "headless": True},
-        {"browser": "firefox", "headless": True},
-    ],
+    BROWSER_SUPERLIST,
     indirect=True
 )
 
@@ -92,10 +89,7 @@ def test_anxiety_simple_ame_can_issue(browser_types_fixture):
 # Test for long anxiety path with outcome
 @pytest.mark.parametrize(
     "browser_types_fixture",
-    [
-        {"browser": "chrome",  "headless": True},
-        {"browser": "firefox", "headless": True},
-    ],
+    BROWSER_SUPERLIST,
     indirect=True
 )
 
@@ -125,10 +119,7 @@ def test_anxiety_complex_deferral(browser_types_fixture):
 # Test to make sure only two items are chosen
 @pytest.mark.parametrize(
     "browser_types_fixture",
-    [
-        {"browser": "chrome",  "headless": True},
-        {"browser": "firefox", "headless": True},
-    ],
+    BROWSER_SUPERLIST,
     indirect=True
 )
 
@@ -158,10 +149,7 @@ def test_anxiety_checkbox_max_two_behaviour(browser_types_fixture):
 # Test for stent + class 1 or 2, <3 months. 
 @pytest.mark.parametrize(
     "browser_types_fixture",
-    [
-        {"browser": "chrome",  "headless": True},
-        {"browser": "firefox", "headless": True},
-    ],
+    BROWSER_SUPERLIST,
     indirect=True
 )
 
@@ -190,10 +178,7 @@ def test_chd_waiting_period_information(browser_types_fixture):
 # Class 1 eval needs radionuclide and cath
 @pytest.mark.parametrize(
     "browser_types_fixture",
-    [
-        {"browser": "chrome",  "headless": True},
-        {"browser": "firefox", "headless": True},
-    ],
+    BROWSER_SUPERLIST,
     indirect=True
 )
 
@@ -230,10 +215,7 @@ def test_chd_class1_initial_requires_radionuclide_and_cath(browser_types_fixture
 # diabetes paths make sure each choice are correct
 @pytest.mark.parametrize(
     "browser_types_fixture",
-    [
-        {"browser": "chrome",  "headless": True},
-        {"browser": "firefox", "headless": True},
-    ],
+    BROWSER_SUPERLIST,
     indirect=True)
 
 def test_diabetes_paths(browser_types_fixture, management, expected):
@@ -256,10 +238,7 @@ def test_diabetes_paths(browser_types_fixture, management, expected):
 # Tests start over button
 @pytest.mark.parametrize(
     "browser_types_fixture",
-    [
-        {"browser": "chrome",  "headless": True},
-        {"browser": "firefox", "headless": True},
-    ],
+    BROWSER_SUPERLIST,
     indirect=True
 )
 
@@ -293,10 +272,7 @@ def test_restart_returns_to_condition_grid(browser_types_fixture):
 # Makes sure enter can select things when highlighted
 @pytest.mark.parametrize(
     "browser_types_fixture",
-    [
-        {"browser": "chrome",  "headless": True},
-        {"browser": "firefox", "headless": True},
-    ],
+    BROWSER_SUPERLIST,
     indirect=True
 )
 
