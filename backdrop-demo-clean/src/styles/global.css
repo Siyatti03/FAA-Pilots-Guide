@@ -1,0 +1,169 @@
+/*--------- Colors ---------*/
+:root{
+    --topBar:#1d2631;
+    --brandBlue:#243e90;
+    --navChip:#eef2f6;
+    --divider:#eceff3;
+    --sidebarItem:#f3f5f8;
+    --panelRight:#dde2e9;
+    --cardWhite:#ffffff;
+    --blueA:#3B82F6;   /* primary blue */
+    --blueB:#2563EB;   /* secondary blue */
+    --rowBg:#eff2f5;
+    --rowBar:#cfd6de;
+    --rowSquare:#bcc7df;
+    --page:#ffffff;
+}
+
+/*--------- Base Styles ---------*/
+*{box-sizing:border-box}
+
+html,body,#root{height:100%}
+
+body{
+    margin:0;
+    background:var(--page);
+    color:#111;
+    font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif
+}
+
+.container{
+    max-width:1120px;
+    margin:0 auto
+}
+
+/*--------- Layouts ---------*/
+.topbar{
+    background:var(--topBar);
+    height:20px
+}
+
+.row{
+    display:flex;
+    align-items:center
+}
+
+/*--------- Components ---------*/
+.divider{
+    background:var(--divider);
+    height:36px
+}
+
+.brand{
+    width:224px;
+    height:36px;
+    background:var(--brandBlue);
+    border-radius:3px
+}
+
+.chip{
+    width:112px;
+    height:24px;
+    background:var(--navChip);
+    border-radius:3px
+}
+
+.chip-long{
+    width:160px;
+    height:24px;
+    background:var(--navChip);
+    border-radius:3px
+}
+
+.search{
+    width:256px;
+    height:36px;
+    background:var(--navChip);
+    border-radius:3px
+}
+
+.sidebar-item{
+    height:40px;
+    background:var(--sidebarItem);
+    border-radius:3px
+}
+
+.card{
+    height:300px;
+    background:var(--cardWhite);
+    border-radius:3px
+}
+
+.rpanel{
+    height:300px;
+    background:var(--panelRight);
+    border-radius:3px
+}
+
+.rowItem{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    background:var(--rowBg);
+    border-radius:3px;
+    padding:16px
+}
+
+.rowBar{
+    height:16px;
+    width:256px;
+    background:var(--rowBar);
+    border-radius:3px
+}
+
+.rowSquare{
+    height:28px;
+    width:28px;
+    background:var(--rowSquare);
+    border-radius:3px
+}
+
+/* --- Grids ---*/
+.grid{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:24px
+}
+
+.grid-12{
+    display:grid;
+    grid-template-columns:repeat(12,1fr);
+    gap:24px
+}
+
+.col-3{grid-column:span 3}
+.col-4{grid-column:span 4}
+.col-8{grid-column:span 8}
+.col-9{grid-column:span 9}
+
+/* --- Buttons ---*/
+.btnA,.btnB{
+    height:40px;
+    width:160px;
+    border-radius:3px
+}
+
+.btnA{background:var(--blueA)}
+
+.btnB{background:var(--blueB)}
+
+/*--------- Utilities ---------*/
+.space-x-14{gap:56px}
+.space-x-6{gap:24px}
+
+.pxy{padding:24px 24px}
+
+.px{
+    padding-left:24px;
+    padding-right:24px
+}
+
+.h-24{height:24px}
+
+.mt-6{margin-top:24px}
+
+@media (max-width: 900px){
+    .hide-md{display:none}
+    .grid-12{grid-template-columns:1fr}
+    .col-3,.col-4,.col-8,.col-9{grid-column:span 1}
+}
