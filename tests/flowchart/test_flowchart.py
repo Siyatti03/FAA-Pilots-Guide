@@ -47,7 +47,7 @@ WAIT_TIMEOUT = 10
     "browser_types_fixture",
     BROWSER_SUPERLIST,
     indirect=True) # Indirect allows parameterizing fixtures, browser_types_fixture
-def run_flow_test(driver, path, expected):
+def test_run_flow(driver, path, expected):
     """
     Clicks through the flowchart following the given path and verifies result text.
     Returns: (bool: passed, str: result)
