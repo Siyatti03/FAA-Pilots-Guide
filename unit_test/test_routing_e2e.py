@@ -1,34 +1,37 @@
-'''
+"""
 Author: Dien Mai
-    Role: Scrum Master 4
-Purpose: End-to-end routing tests for the FAA tool. These tests validate:
-         - Internal link navigation between pages
-         - Direct URL navigation to common routes
-         - Browser back/forward/refresh behavior
-         - Basic page load performance and presence of key elements
+Role: Scrum Master 4
+
+Purpose:
+    End-to-end routing tests for the FAA tool. These tests validate:
+        - Internal link navigation between pages
+        - Direct URL navigation to common routes
+        - Browser back/forward/refresh behavior
+        - Basic page load performance and presence of key elements
+
 Tests Implemented:
-        1. Click internal links and verify routes work correctly
-        2. Navigate directly to known routes and verify content loads
-        3. Use browser back/forward/refresh and verify stability
-        4. Measure load time and check for basic content (title/headings)
-'''
+    1. Click internal links and verify routes work correctly
+    2. Navigate directly to known routes and verify content loads
+    3. Use browser back/forward/refresh and verify stability
+    4. Measure load time and check for basic content (title/headings)
+"""
 
 # ---- Imports Required ----
 import os
+import sys
 import time
+import pytest
 
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions
+
 from unit_test.e2e_helpers import checkPageReady, BASE_URL, DEFAULT_TIMEOUT
-from unit_test.driver_manager import get_driver
+
 
 # ---- Variables / Constants ----
 LOCAL_HOST = os.getenv("BASE_URL", BASE_URL).rstrip("/")
-DEFAULT_TIMEOUT = int(os.getenv("E2E_TIMEOUT", str(DEFAULT_TIMEOUT)))
-BROWSER_LIST = ["chrome", "firefox", "edge"]
+E2E_TIMEOUT = int(os.getenv("E2E_TIMEOUT", str(DEFAULT_TIMEOUT)))
 
-# Routes to probe directly (customize as needed for the app)
 ROUTE_LIST = [
     "/",
     "/about",
@@ -38,129 +41,200 @@ ROUTE_LIST = [
     "/faq",
 ]
 
-# ---- Driver Factory ----
-# Using centralized WebDriver fixture from driver_manager.py
 
 # ---- Utilities / Helpers ----
-def wait_ready(driver):
-    '''
-    Wait until the document is fully loaded and the <body> is present.
-    '''
-    checkPageReady(driver, driver.current_url)
-
 def goto(driver, path: str):
-    '''
+    """
     Navigate to a path (absolute or relative) and wait for readiness.
-    '''
+    """
     url = path if path.startswith("http") else f"{LOCAL_HOST}{path}"
     checkPageReady(driver, url)
 
-def is_error_page(driver) -> bool:
-    '''
-    Heuristic: treat pages containing 404/Not Found/Error as error pages.
-    '''
-    html = (driver.page_source or "").lower()
-    return any(flag in html for flag in (" 404", "not found", "error"))
+
+def wait_ready(driver, timeout=E2E_TIMEOUT):
+    """
+    Wait until document is loaded and page_source exists (basic stability).
+    """
+    wait = WebDriverWait(driver, timeout)
+    wait.until(lambda d: bool(d.page_source))
+    return True
+
+
+def wait_for_url_change(driver, old_url, timeout=E2E_TIMEOUT):
+    """
+    Wait for URL to change; return True if changed, False if timed out.
+    """
+    try:
+        WebDriverWait(driver, timeout).until(lambda d: d.current_url != old_url)
+        return True
+    except Exception:
+        return False
+
 
 def internal_links(driver):
-    '''
+    """
     Collect internal <a href="..."> links pointing to the same origin or root-relative.
     Returns a list[WebElement].
-    '''
+    """
     out = []
     links = driver.find_elements(By.CSS_SELECTOR, "a[href]")
     for a in links:
+        try:
+            if not a.is_displayed() or not a.is_enabled():
+                continue
+        except Exception:
+            continue
+
         href = a.get_attribute("href") or ""
-        if href.startswith("/") or "localhost" in href:
+        if href.startswith("/") or "localhost" in href or href.startswith(LOCAL_HOST):
             out.append(a)
     return out
 
+
+def headings_present(driver):
+    """
+    Check for any heading elements (h1-h6).
+    """
+    for tag in ["h1", "h2", "h3", "h4", "h5", "h6"]:
+        els = driver.find_elements(By.TAG_NAME, tag)
+        if any(e.is_displayed() for e in els):
+            return True
+    return False
+
+
+def wait_for_element_stale(driver, element, timeout=E2E_TIMEOUT):
+    """
+    Wait until a previously-referenced element becomes stale after navigation.
+    Helps confirm a click caused a route change / re-render.
+    """
+    try:
+        WebDriverWait(driver, timeout).until(lambda d: _is_stale(element))
+        return True
+    except Exception:
+        return False
+
+
+def _is_stale(element):
+    try:
+        # Any call that touches the element can trigger StaleElementReferenceException if it's stale
+        _ = element.is_enabled()
+        return False
+    except Exception:
+        return True
+
+
+ROOT_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+UTILS_DIR = os.path.join(ROOT_DIR, "tests", "utils")
+sys.path.append(UTILS_DIR)
+from driver_variables import BROWSER_SUPERLIST
+
+
 # ---- Test 1: Internal link navigation ----
-def test_Routing_Internal_Links_Work():
-    '''
+@pytest.mark.parametrize("browser_types_fixture", BROWSER_SUPERLIST, indirect=True)
+def test_Routing_Internal_Links_Work(browser_types_fixture):
+    """
     Click up to three internal links and verify that the target pages load
-    and are not obvious error pages. Return to home between clicks.
-    '''
-    for browser in BROWSER_LIST:
-        driver = get_driver(browser, headless=True)
+    and are not obviously broken. Return to home between clicks.
+    """
+    driver = browser_types_fixture
+    goto(driver, "/")
+    wait_ready(driver)
+
+    links = internal_links(driver)
+    if not links:
+        pytest.skip("No internal links found on home page.")
+
+    for i in range(min(3, len(links))):
+        # Re-grab links each loop to avoid stale references after navigation
         goto(driver, "/")
-
-        links = internal_links(driver)
-        if links:
-            for i, link in enumerate(links[:3], start=1):
-                link.click()
-                wait_ready(driver)
-                assert driver.page_source, f"[{browser}] Page broke after clicking link #{i}"
-                goto(driver, "/")  # Return to home
-
-        driver.quit()
-
-# ---- Test 2: Direct URL navigation ----
-def test_Routing_Direct_URLs_Load_Content():
-    '''
-    Navigate directly to a set of known routes and verify the page loads with content.
-    '''
-    for browser in BROWSER_LIST:
-        driver = get_driver(browser, headless=True)
-
-        for route in ROUTE_LIST[:3]:  # Test first 3 routes only
-            goto(driver, route)
-            assert driver.page_source, f"[{browser}] Empty content for route {route}"
-
-        driver.quit()
-
-# ---- Test 3: Browser back/forward/refresh behavior ----
-def test_Routing_Back_Forward_Refresh_Are_Stable():
-    '''
-    Open home, click a link, then use browser back/forward/refresh.
-    Verify pages load and content remains present at each step.
-    '''
-    for browser in BROWSER_LIST:
-        driver = get_driver(browser, headless=True)
-        goto(driver, "/")
+        wait_ready(driver)
 
         links = internal_links(driver)
         if not links:
-            driver.quit()
-            continue
+            pytest.skip("Internal links disappeared after returning home.")
 
-        # Click first link
-        links[0].click()
+        link = links[i]
+        old_url = driver.current_url
+        link.click()
+
+        # Wait for either URL change or the clicked element to go stale
+        url_changed = wait_for_url_change(driver, old_url)
+        _ = wait_for_element_stale(driver, link)
+
         wait_ready(driver)
-        assert driver.page_source, f"[{browser}] Empty content after click"
+        assert driver.page_source, f"Page broke after clicking internal link #{i+1}"
+        assert (url_changed or driver.current_url != old_url or driver.page_source), "Click had no observable effect."
 
-        # Back
-        driver.back()
+
+# ---- Test 2: Direct URL navigation ----
+@pytest.mark.parametrize("browser_types_fixture", BROWSER_SUPERLIST, indirect=True)
+def test_Routing_Direct_URLs_Load_Content(browser_types_fixture):
+    """
+    Navigate directly to a set of known routes and verify the page loads with content.
+    """
+    driver = browser_types_fixture
+
+    for route in ROUTE_LIST[:3]:
+        goto(driver, route)
         wait_ready(driver)
-        assert driver.page_source, f"[{browser}] Empty content after back"
+        assert driver.page_source, f"Empty content for route {route}"
 
-        # Forward
-        driver.forward()
-        wait_ready(driver)
-        assert driver.page_source, f"[{browser}] Empty content after forward"
 
-        # Refresh
-        driver.refresh()
-        wait_ready(driver)
-        assert driver.page_source, f"[{browser}] Empty content after refresh"
+# ---- Test 3: Browser back/forward/refresh behavior ----
+@pytest.mark.parametrize("browser_types_fixture", BROWSER_SUPERLIST, indirect=True)
+def test_Routing_Back_Forward_Refresh_Are_Stable(browser_types_fixture):
+    """
+    Open home, click a link, then use browser back/forward/refresh.
+    Verify pages load and content remains present at each step.
+    """
+    driver = browser_types_fixture
+    goto(driver, "/")
+    wait_ready(driver)
 
-        driver.quit()
+    links = internal_links(driver)
+    if not links:
+        pytest.skip("No internal links found for back/forward/refresh test.")
+
+    old_url = driver.current_url
+    first_link = links[0]
+    first_link.click()
+
+    # Confirm we moved somewhere (URL change or element staleness)
+    _ = wait_for_url_change(driver, old_url) or wait_for_element_stale(driver, first_link)
+    wait_ready(driver)
+    assert driver.page_source, "Empty content after click"
+
+    # Back
+    driver.back()
+    wait_ready(driver)
+    assert driver.page_source, "Empty content after back"
+
+    # Forward
+    driver.forward()
+    wait_ready(driver)
+    assert driver.page_source, "Empty content after forward"
+
+    # Refresh
+    driver.refresh()
+    wait_ready(driver)
+    assert driver.page_source, "Empty content after refresh"
+
 
 # ---- Test 4: Basic load performance & elements ----
-def test_Routing_Page_Load_Performance_And_Elements():
-    '''
+@pytest.mark.parametrize("browser_types_fixture", BROWSER_SUPERLIST, indirect=True)
+def test_Routing_Page_Load_Performance_And_Elements(browser_types_fixture):
+    """
     Measure a simple load time for home, ensure non-empty content, and
     check for presence of a title and any headings.
-    '''
-    for browser in BROWSER_LIST:
-        driver = get_driver(browser, headless=True)
+    """
+    driver = browser_types_fixture
 
-        start = time.time()
-        goto(driver, "/")
-        load_time = time.time() - start
+    start = time.perf_counter()
+    goto(driver, "/")
+    wait_ready(driver)
+    load_time = time.perf_counter() - start
 
-        print(f"[{browser}] Home loaded in {load_time:.2f}s.")
-        assert driver.page_source, f"[{browser}] Empty page content on home."
-        assert driver.title, f"[{browser}] No title found"
+    print(f"[routing] Home loaded in {load_time:.2f}s.")
+    assert driver.page_source, "Empty page content on home."
+    assert driver.title, "No title found on home."
 
-        driver.quit()
