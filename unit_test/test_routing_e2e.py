@@ -123,12 +123,6 @@ def _is_stale(element):
         return True
 
 
-ROOT_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-UTILS_DIR = os.path.join(ROOT_DIR, "tests", "utils")
-sys.path.append(UTILS_DIR)
-from driver_variables import BROWSER_SUPERLIST
-
-
 # ---- Test 1: Internal link navigation ----
 @pytest.mark.parametrize("browser_types_fixture", BROWSER_SUPERLIST, indirect=True)
 def test_Routing_Internal_Links_Work(browser_types_fixture):

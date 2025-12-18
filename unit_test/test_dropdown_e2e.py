@@ -20,6 +20,11 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait, Select
 from unit_test.e2e_helpers import checkPageReady, BASE_URL, DEFAULT_TIMEOUT
 
+ROOT_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+UTILS_DIR = os.path.join(ROOT_DIR, "tests", "utils")
+sys.path.append(UTILS_DIR)
+from driver_variables import BROWSER_SUPERLIST
+
 
 # ---- Variables / Constants ----
 LOCAL_HOST = os.getenv("BASE_URL", BASE_URL)
@@ -136,13 +141,6 @@ def select_native_by_index_and_wait(driver, dropdown, index, timeout=E2E_TIMEOUT
     wait.until(lambda d: Select(dropdown).first_selected_option is not None)
     wait.until(lambda d: Select(dropdown).options[index].is_selected())
     return sel
-
-
-# ---- Reuse the same superlist approach as baseline test ----
-ROOT_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-UTILS_DIR = os.path.join(ROOT_DIR, "tests", "utils")
-sys.path.append(UTILS_DIR)
-from driver_variables import BROWSER_SUPERLIST
 
 
 # ---- Test 1: Open dropdown, select first option, verify page remains stable ----

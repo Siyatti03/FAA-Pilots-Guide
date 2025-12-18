@@ -23,6 +23,11 @@ from selenium.webdriver.support.ui import WebDriverWait
 
 from unit_test.e2e_helpers import checkPageReady, BASE_URL, DEFAULT_TIMEOUT
 
+ROOT_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+UTILS_DIR = os.path.join(ROOT_DIR, "tests", "utils")
+sys.path.append(UTILS_DIR)
+from driver_variables import BROWSER_SUPERLIST
+
 
 # ---- Variables / Constants ----
 LOCAL_HOST = os.getenv("BASE_URL", BASE_URL)
@@ -120,12 +125,6 @@ def click_and_wait_for_effect(driver, el, timeout=E2E_TIMEOUT):
     wait_for_dom_stable(driver, timeout=timeout)
 
     return {"url_changed": url_changed, "scroll_changed": scroll_changed}
-
-
-ROOT_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-UTILS_DIR = os.path.join(ROOT_DIR, "tests", "utils")
-sys.path.append(UTILS_DIR)
-from driver_variables import BROWSER_SUPERLIST
 
 
 # ---- Test 1: Click a nav element and verify URL change or in-page scroll ----
