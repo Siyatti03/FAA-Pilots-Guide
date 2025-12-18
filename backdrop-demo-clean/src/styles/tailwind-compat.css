@@ -1,0 +1,155 @@
+/* ============================================================
+   Tailwind Compatibility Layer
+   Purpose:
+   - Replicates ONLY the Tailwind utility classes used
+     by the Body Map feature
+   ============================================================ */
+
+
+/* ---------------- Layout ---------------- */
+
+.flex { display: flex; }
+.flex-col { flex-direction: column; }
+.items-center { align-items: center; }
+.items-start { align-items: flex-start; }
+.justify-center { justify-content: center; }
+.justify-between { justify-content: space-between; }
+
+.grid { display: grid; }
+.grid-cols-1 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
+
+.flex-1 { flex: 1 1 0%; }
+
+.w-full { width: 100%; }
+.h-full { height: 100%; }
+
+.max-w-6xl { max-width: 72rem; }
+.mx-auto { margin-left: auto; margin-right: auto; }
+
+.overflow-hidden { overflow: hidden; }
+.overflow-y-auto { overflow-y: auto; }
+
+
+/* ---------------- Spacing ---------------- */
+
+.p-2 { padding: 0.5rem; }
+.p-4 { padding: 1rem; }
+.p-6 { padding: 1.5rem; }
+
+.px-2 { padding-left: 0.5rem; padding-right: 0.5rem; }
+.px-4 { padding-left: 1rem; padding-right: 1rem; }
+
+.py-1 { padding-top: 0.25rem; padding-bottom: 0.25rem; }
+.py-2 { padding-top: 0.5rem; padding-bottom: 0.5rem; }
+
+.mb-1 { margin-bottom: 0.25rem; }
+.mb-2 { margin-bottom: 0.5rem; }
+.mb-3 { margin-bottom: 0.75rem; }
+
+.mt-auto { margin-top: auto; }
+
+.gap-2 { gap: 0.5rem; }
+.gap-4 { gap: 1rem; }
+.gap-6 { gap: 1.5rem; }
+
+
+/* ---------------- Typography ---------------- */
+
+.text-xs { font-size: 0.75rem; line-height: 1rem; }
+.text-sm { font-size: 0.875rem; line-height: 1.25rem; }
+.text-lg { font-size: 1.125rem; line-height: 1.75rem; }
+.text-xl { font-size: 1.25rem; line-height: 1.75rem; }
+
+.font-medium { font-weight: 500; }
+.font-semibold { font-weight: 600; }
+.font-bold { font-weight: 700; }
+
+.italic { font-style: italic; }
+.leading-tight { line-height: 1.25; }
+.text-center { text-align: center; }
+
+.text-gray-500 { color: #6b7280; }
+.text-gray-600 { color: #4b5563; }
+.text-gray-700 { color: #374151; }
+.text-white { color: #ffffff; }
+
+
+/* ---------------- Backgrounds / Borders ---------------- */
+
+.bg-white { background-color: #ffffff; }
+.bg-gray-50 { background-color: #f9fafb; }
+.bg-gray-100 { background-color: #f3f4f6; }
+
+.border { border: 1px solid #e5e7eb; }
+.border-gray-200 { border-color: #e5e7eb; }
+.border-gray-300 { border-color: #d1d5db; }
+
+.rounded-md { border-radius: 0.375rem; }
+.shadow-sm { box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
+
+
+/* ---------------- Buttons / Hover ---------------- */
+
+.cursor-pointer { cursor: pointer; }
+
+.bg-\[\#3b3e85\] { background-color: #3b3e85; }
+.hover\:bg-\[\#2f326c\]:hover { background-color: #2f326c; }
+
+.hover\:fill-blue-300:hover { fill: #93c5fd; }
+
+
+/* ---------------- Lists ---------------- */
+
+.list-disc { list-style-type: disc; }
+
+
+/* ---------------- Sizing ---------------- */
+
+.h-\[460px\] { height: 460px; }
+.h-\[600px\] { height: 600px; }
+
+
+/* ---------------- Responsive ---------------- */
+
+@media (min-width: 640px) {
+  .sm\:flex-row { flex-direction: row; }
+  .sm\:items-center { align-items: center; }
+  .sm\:w-48 { width: 12rem; }
+  .sm\:grid-cols-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 768px) {
+  .md\:text-1xl {
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .lg\:grid-cols-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .lg\:col-span-2 {
+    grid-column: span 2 / span 2;
+  }
+  .lg\:text-2xl {
+    font-size: 1.5rem;
+    line-height: 2rem;
+  }
+}
+
+
+/* ============================================================
+   FIXES (non-Tailwind but required for layout)
+   ============================================================ */
+
+/* Force form options to stack vertically */
+fieldset {
+  display: block;
+}
+
+fieldset label {
+  display: block;
+}

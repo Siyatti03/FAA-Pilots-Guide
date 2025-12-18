@@ -1,6 +1,21 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import BodyMapPage from "./pages/BodyMapPage";
 
 export default function App() {
+  const [route, setRoute] = useState(() => window.location.hash || "#/");
+
+  useEffect(() => {
+    const onHashChange = () => setRoute(window.location.hash || "#/");
+    window.addEventListener("hashchange", onHashChange);
+    return () => window.removeEventListener("hashchange", onHashChange);
+  }, []);
+
+  // ===== BODY MAP PAGE (separate from backdrop) =====
+  if (route === "#/body-map") {
+    return <BodyMapPage />;
+  }
+
+  // ===== DEFAULT: BACKDROP (UNCHANGED) =====
   return (
     <>
       {/* Top dark bar */}
