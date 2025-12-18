@@ -27,6 +27,11 @@ from selenium.webdriver.support.ui import WebDriverWait
 
 from unit_test.e2e_helpers import checkPageReady, BASE_URL, DEFAULT_TIMEOUT
 
+ROOT_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+UTILS_DIR = os.path.join(ROOT_DIR, "tests", "utils")
+sys.path.append(UTILS_DIR)
+from driver_variables import BROWSER_SUPERLIST
+
 
 # ---- Variables / Constants ----
 LOCAL_HOST = os.getenv("BASE_URL", BASE_URL).rstrip("/")
