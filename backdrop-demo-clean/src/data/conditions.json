@@ -1,0 +1,509 @@
+{
+  "conditions": [
+    {
+      "id": "bp",
+      "label": "Blood Pressure Disorders",
+      "desc": "These are medical conditions that affect the blood pressure of an individual",
+      "questions": [
+        {
+          "step": 2,
+          "question": "Have you been diagnosed with high blood pressure?",
+          "options": [
+            { "label": "Yes", "value": "yes" },
+            { "label": "No", "value": "no" }
+          ]
+        }
+      ],
+      "forms": ["Form Name 1", "Form Name 2"]
+    },
+    {
+      "id": "chd",
+      "label": "Coronary Heart Disease",
+      "desc": "These are medical conditions that affect or have affected the heart of an individual",
+      "questions": [
+        {
+          "step": 2,
+          "question": "Have you had any heart-related procedures?",
+          "options": [
+            { "label": "Yes", "value": "yes" },
+            { "label": "No", "value": "no" }
+          ]
+        }
+      ],
+      "forms": ["Form Name 1"]
+    },
+    {
+      "id": "mental",
+      "label": "Mental Health",
+      "desc": "These are diagnosed medical conditions that affect a person's mind",
+      "subConditions": [
+        { "id": "gad", "label": "Generalized Anxiety Disorder" },
+        { "id": "depression", "label": "Depression" },
+        { "id": "ptsd", "label": "Post Traumatic Stress Disorder" }
+      ],
+      "questions": [
+        {
+          "step": 2,
+          "question": "Have you taken, been prescribed, or been recommended any medication for a mental health condition within the last two years?",
+          "options": [
+            { "label": "Yes", "value": "yes" },
+            { "label": "No", "value": "no" }
+          ]
+        },
+        {
+          "step": 3,
+          "question": "Have you been hospitalized for a mental health condition?",
+          "options": [
+            { "label": "Yes", "value": "yes" },
+            { "label": "No", "value": "no" }
+          ]
+        },
+        {
+          "step": 4,
+          "question": "Are you currently under treatment for a mental health condition?",
+          "options": [
+            { "label": "Yes", "value": "yes" },
+            { "label": "No", "value": "no" }
+          ]
+        },
+        {
+          "step": 5,
+          "question": "This is example text",
+          "options": [
+            { "label": "Yes", "value": "yes" },
+            { "label": "No", "value": "no" }
+          ]
+        }
+      ],
+      "forms": ["Form Name 1", "Form Name 2", "Form Name 3", "Form Name 4"]
+    },
+    {
+      "id": "diabetes",
+      "label": "Diabetes Mellitus",
+      "desc": "This is a medical condition that affects blood sugar levels",
+      "questions": [
+        {
+          "step": 2,
+          "question": "What type of diabetes have you been diagnosed with?",
+          "options": [
+            { "label": "Type 1", "value": "type1" },
+            { "label": "Type 2", "value": "type2" }
+          ]
+        }
+      ],
+      "forms": ["Form Name 1", "Form Name 2"]
+    },
+    {
+      "id": "asthma",
+      "label": "Asthma",
+      "desc": "A chronic respiratory condition that causes difficulty breathing and airway inflammation",
+      "questions": [
+        {
+          "step": 2,
+          "question": "Have you been diagnosed with asthma?",
+          "options": [
+            { "label": "Yes", "value": "yes" },
+            { "label": "No", "value": "no" }
+          ]
+        },
+        {
+          "step": 3,
+          "question": "Do you currently use any asthma medications?",
+          "options": [
+            { "label": "Yes", "value": "yes" },
+            { "label": "No", "value": "no" }
+          ]
+        },
+        {
+          "step": 4,
+          "question": "Have you had any asthma-related hospitalizations in the past year?",
+          "options": [
+            { "label": "Yes", "value": "yes" },
+            { "label": "No", "value": "no" }
+          ]
+        }
+      ],
+      "forms": ["Asthma Medical Report", "Pulmonary Function Test Results", "Medication List"]
+    },
+    {
+      "id": "sleep",
+      "label": "Sleep Disorders",
+      "desc": "Conditions that affect sleep patterns and quality, including sleep apnea, narcolepsy, and insomnia",
+      "subConditions": [
+        { "id": "apnea", "label": "Sleep Apnea" },
+        { "id": "narcolepsy", "label": "Narcolepsy" },
+        { "id": "insomnia", "label": "Insomnia" },
+        { "id": "restless", "label": "Restless Leg Syndrome" }
+      ],
+      "questions": [
+        {
+          "step": 2,
+          "question": "Have you been diagnosed with a sleep disorder?",
+          "options": [
+            { "label": "Yes", "value": "yes" },
+            { "label": "No", "value": "no" }
+          ]
+        },
+        {
+          "step": 3,
+          "question": "Do you use a CPAP or other sleep therapy device?",
+          "options": [
+            { "label": "Yes", "value": "yes" },
+            { "label": "No", "value": "no" }
+          ]
+        },
+        {
+          "step": 4,
+          "question": "Have you had a sleep study performed?",
+          "options": [
+            { "label": "Yes", "value": "yes" },
+            { "label": "No", "value": "no" }
+          ]
+        }
+      ],
+      "forms": ["Sleep Study Results", "CPAP Compliance Report", "Sleep Disorder Medical Evaluation"]
+    },
+    {
+      "id": "vision",
+      "label": "Vision Disorders",
+      "desc": "Eye conditions that may affect visual acuity, color vision, or depth perception",
+      "questions": [
+        {
+          "step": 2,
+          "question": "Do you wear corrective lenses?",
+          "options": [
+            { "label": "Yes, glasses", "value": "glasses" },
+            { "label": "Yes, contact lenses", "value": "contacts" },
+            { "label": "Yes, both", "value": "both" },
+            { "label": "No", "value": "no" }
+          ]
+        },
+        {
+          "step": 3,
+          "question": "Have you had any eye surgeries?",
+          "options": [
+            { "label": "Yes", "value": "yes" },
+            { "label": "No", "value": "no" }
+          ]
+        }
+      ],
+      "forms": ["Vision Examination Report", "Eye Surgery Documentation"]
+    },
+    {
+      "id": "hearing",
+      "label": "Hearing Loss",
+      "desc": "Partial or complete loss of hearing ability in one or both ears",
+      "questions": [
+        {
+          "step": 2,
+          "question": "Do you have any hearing loss?",
+          "options": [
+            { "label": "Yes, mild", "value": "mild" },
+            { "label": "Yes, moderate", "value": "moderate" },
+            { "label": "Yes, severe", "value": "severe" },
+            { "label": "No", "value": "no" }
+          ]
+        },
+        {
+          "step": 3,
+          "question": "Do you use hearing aids?",
+          "options": [
+            { "label": "Yes", "value": "yes" },
+            { "label": "No", "value": "no" }
+          ]
+        }
+      ],
+      "forms": ["Audiogram Results", "Hearing Aid Evaluation"]
+    },
+    {
+      "id": "seizure",
+      "label": "Seizure Disorders",
+      "desc": "Neurological conditions characterized by recurrent seizures or convulsions",
+      "questions": [
+        {
+          "step": 2,
+          "question": "Have you ever had a seizure?",
+          "options": [
+            { "label": "Yes", "value": "yes" },
+            { "label": "No", "value": "no" }
+          ]
+        },
+        {
+          "step": 3,
+          "question": "Are you currently taking anti-seizure medication?",
+          "options": [
+            { "label": "Yes", "value": "yes" },
+            { "label": "No", "value": "no" }
+          ]
+        },
+        {
+          "step": 4,
+          "question": "When was your last seizure?",
+          "options": [
+            { "label": "Within the last 6 months", "value": "6months" },
+            { "label": "6-12 months ago", "value": "12months" },
+            { "label": "More than 12 months ago", "value": "over12" },
+            { "label": "Never", "value": "never" }
+          ]
+        },
+        {
+          "step": 5,
+          "question": "Have you been seizure-free for at least 2 years?",
+          "options": [
+            { "label": "Yes", "value": "yes" },
+            { "label": "No", "value": "no" }
+          ]
+        }
+      ],
+      "forms": ["Neurological Evaluation", "EEG Results", "Seizure History Documentation", "Medication Compliance Report"]
+    },
+    {
+      "id": "kidney",
+      "label": "Kidney Disease",
+      "desc": "Conditions affecting kidney function, including chronic kidney disease and kidney stones",
+      "questions": [
+        {
+          "step": 2,
+          "question": "Have you been diagnosed with kidney disease?",
+          "options": [
+            { "label": "Yes", "value": "yes" },
+            { "label": "No", "value": "no" }
+          ]
+        },
+        {
+          "step": 3,
+          "question": "Do you require dialysis?",
+          "options": [
+            { "label": "Yes", "value": "yes" },
+            { "label": "No", "value": "no" }
+          ]
+        }
+      ],
+      "forms": ["Kidney Function Test Results", "Nephrologist Evaluation"]
+    },
+    {
+      "id": "liver",
+      "label": "Liver Disease",
+      "desc": "Conditions affecting liver function, including hepatitis, cirrhosis, and fatty liver disease",
+      "subConditions": [
+        { "id": "hepatitis", "label": "Hepatitis" },
+        { "id": "cirrhosis", "label": "Cirrhosis" },
+        { "id": "fatty", "label": "Fatty Liver Disease" }
+      ],
+      "questions": [
+        {
+          "step": 2,
+          "question": "Have you been diagnosed with liver disease?",
+          "options": [
+            { "label": "Yes", "value": "yes" },
+            { "label": "No", "value": "no" }
+          ]
+        },
+        {
+          "step": 3,
+          "question": "What type of liver condition?",
+          "options": [
+            { "label": "Hepatitis", "value": "hepatitis" },
+            { "label": "Cirrhosis", "value": "cirrhosis" },
+            { "label": "Fatty Liver", "value": "fatty" },
+            { "label": "Other", "value": "other" }
+          ]
+        }
+      ],
+      "forms": ["Liver Function Tests", "Hepatologist Evaluation", "Imaging Results"]
+    },
+    {
+      "id": "thyroid",
+      "label": "Thyroid Disorders",
+      "desc": "Conditions affecting the thyroid gland, including hypothyroidism, hyperthyroidism, and thyroid cancer",
+      "questions": [
+        {
+          "step": 2,
+          "question": "Have you been diagnosed with a thyroid condition?",
+          "options": [
+            { "label": "Yes", "value": "yes" },
+            { "label": "No", "value": "no" }
+          ]
+        },
+        {
+          "step": 3,
+          "question": "Are you currently taking thyroid medication?",
+          "options": [
+            { "label": "Yes", "value": "yes" },
+            { "label": "No", "value": "no" }
+          ]
+        }
+      ],
+      "forms": ["Thyroid Function Tests", "Endocrinologist Report"]
+    },
+    {
+      "id": "stroke",
+      "label": "Stroke or TIA",
+      "desc": "History of stroke, transient ischemic attack (TIA), or cerebrovascular accident",
+      "questions": [
+        {
+          "step": 2,
+          "question": "Have you ever had a stroke or TIA?",
+          "options": [
+            { "label": "Yes, stroke", "value": "stroke" },
+            { "label": "Yes, TIA", "value": "tia" },
+            { "label": "No", "value": "no" }
+          ]
+        },
+        {
+          "step": 3,
+          "question": "When did this occur?",
+          "options": [
+            { "label": "Within the last year", "value": "1year" },
+            { "label": "1-5 years ago", "value": "5years" },
+            { "label": "More than 5 years ago", "value": "over5" }
+          ]
+        },
+        {
+          "step": 4,
+          "question": "Do you have any residual effects?",
+          "options": [
+            { "label": "Yes", "value": "yes" },
+            { "label": "No", "value": "no" }
+          ]
+        }
+      ],
+      "forms": ["Neurological Evaluation", "MRI/CT Scan Results", "Neurologist Report"]
+    },
+    {
+      "id": "cancer",
+      "label": "Cancer",
+      "desc": "History of cancer diagnosis, treatment, or remission status",
+      "subConditions": [
+        { "id": "skin", "label": "Skin Cancer" },
+        { "id": "breast", "label": "Breast Cancer" },
+        { "id": "prostate", "label": "Prostate Cancer" },
+        { "id": "lung", "label": "Lung Cancer" },
+        { "id": "colon", "label": "Colon Cancer" },
+        { "id": "other", "label": "Other Cancer" }
+      ],
+      "questions": [
+        {
+          "step": 2,
+          "question": "Have you ever been diagnosed with cancer?",
+          "options": [
+            { "label": "Yes", "value": "yes" },
+            { "label": "No", "value": "no" }
+          ]
+        },
+        {
+          "step": 3,
+          "question": "What type of cancer?",
+          "options": [
+            { "label": "Skin", "value": "skin" },
+            { "label": "Breast", "value": "breast" },
+            { "label": "Prostate", "value": "prostate" },
+            { "label": "Lung", "value": "lung" },
+            { "label": "Colon", "value": "colon" },
+            { "label": "Other", "value": "other" }
+          ]
+        },
+        {
+          "step": 4,
+          "question": "What is your current status?",
+          "options": [
+            { "label": "In treatment", "value": "treatment" },
+            { "label": "In remission", "value": "remission" },
+            { "label": "Cured", "value": "cured" }
+          ]
+        }
+      ],
+      "forms": ["Oncologist Report", "Treatment History", "Current Status Documentation", "Follow-up Schedule"]
+    },
+    {
+      "id": "substance",
+      "label": "Substance Use Disorder",
+      "desc": "History of alcohol or drug abuse, dependence, or related treatment",
+      "questions": [
+        {
+          "step": 2,
+          "question": "Have you ever been treated for substance use disorder?",
+          "options": [
+            { "label": "Yes", "value": "yes" },
+            { "label": "No", "value": "no" }
+          ]
+        },
+        {
+          "step": 3,
+          "question": "When was your last use?",
+          "options": [
+            { "label": "Within the last year", "value": "1year" },
+            { "label": "1-5 years ago", "value": "5years" },
+            { "label": "More than 5 years ago", "value": "over5" },
+            { "label": "Never", "value": "never" }
+          ]
+        },
+        {
+          "step": 4,
+          "question": "Are you currently in recovery or treatment?",
+          "options": [
+            { "label": "Yes", "value": "yes" },
+            { "label": "No", "value": "no" }
+          ]
+        }
+      ],
+      "forms": ["Substance Abuse Evaluation", "Treatment Records", "Recovery Documentation"]
+    },
+    {
+      "id": "back",
+      "label": "Back or Spine Disorders",
+      "desc": "Conditions affecting the spine, including herniated discs, spinal stenosis, and chronic back pain",
+      "questions": [
+        {
+          "step": 2,
+          "question": "Do you have chronic back or spine problems?",
+          "options": [
+            { "label": "Yes", "value": "yes" },
+            { "label": "No", "value": "no" }
+          ]
+        },
+        {
+          "step": 3,
+          "question": "Have you had back surgery?",
+          "options": [
+            { "label": "Yes", "value": "yes" },
+            { "label": "No", "value": "no" }
+          ]
+        }
+      ],
+      "forms": ["Orthopedic Evaluation", "MRI Results", "Surgical Reports"]
+    },
+    {
+      "id": "arthritis",
+      "label": "Arthritis",
+      "desc": "Inflammatory joint conditions including rheumatoid arthritis and osteoarthritis",
+      "subConditions": [
+        { "id": "rheumatoid", "label": "Rheumatoid Arthritis" },
+        { "id": "osteo", "label": "Osteoarthritis" },
+        { "id": "psoriatic", "label": "Psoriatic Arthritis" }
+      ],
+      "questions": [
+        {
+          "step": 2,
+          "question": "Have you been diagnosed with arthritis?",
+          "options": [
+            { "label": "Yes", "value": "yes" },
+            { "label": "No", "value": "no" }
+          ]
+        },
+        {
+          "step": 3,
+          "question": "What type of arthritis?",
+          "options": [
+            { "label": "Rheumatoid", "value": "rheumatoid" },
+            { "label": "Osteoarthritis", "value": "osteo" },
+            { "label": "Psoriatic", "value": "psoriatic" },
+            { "label": "Other", "value": "other" }
+          ]
+        }
+      ],
+      "forms": ["Rheumatologist Evaluation", "Joint Imaging", "Treatment Plan"]
+    }
+  ]
+}
+

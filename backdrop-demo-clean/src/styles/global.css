@@ -118,6 +118,23 @@ body{
     border-radius:3px
 }
 
+input[type="checkbox"]:checked {
+    background-color: #2563EB !important;
+    border-color: #2563EB !important;
+}
+
+input[type="checkbox"]:checked::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 6px;
+    height: 6px;
+    background-color: white;
+    border-radius: 50%;
+}
+
 /* --- Grids ---*/
 .grid{
     display:grid;
@@ -166,4 +183,101 @@ body{
     .hide-md{display:none}
     .grid-12{grid-template-columns:1fr}
     .col-3,.col-4,.col-8,.col-9{grid-column:span 1}
+}
+
+/* --- Phase Layouts & Wrappers --- */
+.phase-container {
+    background: #f5f5f5;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.phase-header {
+    background: #e5e7eb;
+    padding: 16px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.phase-content {
+    flex: 1;
+    padding: 40px 24px;
+    width: 100%;
+    overflow-y: auto;
+}
+
+.phase-footer {
+    background: #4a5568;
+    padding: 16px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* --- Cards & UI Components --- */
+.content-card {
+    background: var(--cardWhite);
+    border-radius: 12px;
+    padding: 32px;
+    max-width: 800px;
+    margin: 0 auto;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.btn-primary {
+    background: var(--brandBlue);
+    color: #fff;
+    border-radius: 6px;
+    padding: 8px 16px;
+    border: none;
+    cursor: pointer;
+    font-weight: 500;
+    transition: opacity 0.2s;
+}
+
+.btn-primary:disabled {
+    background: #9ca3af;
+    cursor: not-allowed;
+}
+
+/* --- Walkthrough Specific --- */
+.question-block {
+    padding: 24px;
+    border-radius: 8px;
+    border: 1px solid #e5e7eb;
+    margin-bottom: 20px;
+}
+
+.option-label {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    padding: 8px 0;
+}
+
+/* --- Results/Summary Specific --- */
+.status-title {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    color: var(--brandBlue);
+}
+
+.form-item {
+    background: #f5f7fa;
+    padding: 12px;
+    border-radius: 6px;
+    margin-bottom: 8px;
+    cursor: pointer;
+}
+
+.form-details {
+    margin-top: 12px;
+    padding: 12px;
+    background: var(--cardWhite);
+    border-radius: 4px;
 }
