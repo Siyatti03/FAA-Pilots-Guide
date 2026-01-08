@@ -3,7 +3,7 @@
 ## Description  
 
 ### What is the Project?  
-- This project creates an educational web platform that guides new pilots through the FAA medical certification process.  
+- This project creates an educational web platform prototype that guides new pilots through the FAA medical certification process.  
 - It provides clear, accurate, and accessible information, including tools to reduce confusion and stress when seeking a medical certificate.  
 
 ### Who is it for?  
@@ -14,40 +14,60 @@
 
 ## How to Run / Install  
 
-In order to run the current version of our project, clone the repository, navigate into the frontend folder, install the discrepancies with `npm install`, and start the development server using `npm run dev`. This then launches the prototype on a local port, usually `http://localhost:8443`, where the application can be accessed through a web browser. At this stage, it runs entirely in the browser using mock data, and focuses on features such as the dropdown menus, interactive checklists, and responsive formatting.  
+In order to run the current version of our project, follow the steps below:
+- clone the repository, 
+- navigate into the frontend folder, 
+- install the dependencies with `npm install`, and 
+- start the development server using `npm run dev`. 
+This then launches the prototype on a local port, see the information for which port on the terminal, where the application can be accessed through a web browser. At this stage, it runs entirely in the browser using mock data, and focuses on features such as the dropdown menus, interactive checklists, and responsive formatting.  
+
+### Naming Convention:
+
+#### Branches
+dev/TICKET(##)_SPRINT(s#)/descriptive_name
+
+#### Folders/Files Names
+lowercase, with underscores between words.
+
+#### Files Content
+Each testing file should include a preamble with name, role, purpose, and tests inside file.
 
 ---
 
 ## What are the Key Features?  
 
-- Drop down subsections explaining the abbreviations and their roles in medical certification  
-- Dynamic formatting that works for mobile and desktop browsers  
-- Interactive checklists for specific medical conditions  
+- Dynamic formatting that works for mobile and all desktop browsers
+- Drop down subsections explaining the abbreviations and their roles in medical certification inside a Search Box
+- Interactive checklists for specific medical conditions
+- Interactive Body for identifying key medical conditions  
 - Use segmentation and abstraction to reduce link overwhelm  
-
-### Ideas for the future  
-- Interactive body that can show the different conditions that can impact that body part(s) regarding the AME, based on clicks/taps  
+- Tests to ensure functionality for all software interactive elements
 
 ---
 
 ## What are the Tools?  
 
 ### Languages  
-Based on the scope of the project we are not use if we will need a backend, if so the languages we plan on using are:  
-- Frontend: HTML/CSS
+- Frontend: TSX(React.js)/HTML/CSS
 - Middle: Node.js  
-- Backend: PHP 
+- Backend: N/A (Not needed for current scope)
 - Tests: Python 
 
 ### Tools for Development:  
 - Operating System for Development: Linux  
 - Online Repository: GitLab  
 - Designing formatting: Figma  
+- End-to-End Testing: Selenium
+- Testing infastructure: Pytest
+- Code Review: GitLab resources
 
 ### Resources:  
 - Node.js Doc: [Node.js v24.7.0 Documentation](https://nodejs.org/api/all.html)  
-- PHP Docs: [PHP Manual](https://www.php.net/manual/en/function.com-create-guid.php)  
 - Figma learning resource: [Learn Design & Design Basics | Figma](https://www.figma.com/resource-library/design-basics/)  
+- Pytest Doc: [Pytest Documentation](https://docs.pytest.org/en/stable/)
+- Selenium Doc: [Selenium Main Page](https://www.selenium.dev/)
+- Python Doc: [Python 3.14.2 Documentation](https://docs.python.org/3/)
+- ARIA Descriptions/Options: [ARIA Information](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Roles)
 
 ---
 
@@ -74,13 +94,14 @@ Based on the scope of the project we are not use if we will need a backend, if s
 - [x] Communicate with Client to decide on format, requirements, standards  
 - [x] Present frontend formatting ideas to Client  
 - [x] Finalize resources to be used for project (libraries, languages, repository, etc.)  
-- [ ] Implement key frontend implementations and continuous integration tests  
-  - [X] Dropdown Menus  
-  - [ ] Checklists  
-  - [ ] Interactive page body  
-- [ ] Present initial prototype(s) to client  
-- [ ] Receive and iterate upon initial prototype feedback  
-- [ ] Present revised version(s)  
-- [ ] Further refine revised version(s)  
-- [ ] Finalize minimum viable product  
-- [ ] Prepare end-of-semester poster materials  
+- [x] Implement key frontend implementations and continuous integration tests  
+  - [x] Dropdown Menus  
+  - [x] Checklists  
+  - [x] Interactive page body  
+- [x] Present initial prototype(s) to client  
+- [x] Receive and iterate upon initial prototype feedback  
+- [x] Present revised version(s)  
+- [x] Finalize minimum viable product  
+- [ ] Prepare end-of-semester poster materials
+
+---
