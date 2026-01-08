@@ -1,0 +1,10 @@
+{
+  "Head": ["Migraine with aura (female)", "Vision issues (female)"],
+  "Chest": ["Arrhythmia (female)", "Asthma (female)"],
+  "Abdomen": ["Ulcer (female)", "Hernia (female)"],
+  "Arms": ["Fracture history (female)"],
+  "Hands": ["Carpal tunnel (female)"],
+  "Legs": ["Varicose veins (female)"],
+  "Knees": ["Patellofemoral pain (female)"],
+  "Feet": ["Plantar fasciitis (female)"]
+}

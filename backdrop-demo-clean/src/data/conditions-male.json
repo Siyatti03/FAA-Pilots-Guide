@@ -1,0 +1,10 @@
+{
+  "Head": ["Migraine (male)", "Vision issues (male)"],
+  "Chest": ["Arrhythmia (male)", "Asthma (male)"],
+  "Abdomen": ["Ulcer (male)", "Hernia (male)"],
+  "Arms": ["Fracture history (male)"],
+  "Hands": ["Grip strength concerns (male)"],
+  "Legs": ["Circulation issues (male)"],
+  "Knees": ["Arthritis (male)"],
+  "Feet": ["Balance issues (male)"]
+}
