@@ -1,0 +1,11 @@
+{
+  "files": [
+    {"file": "certification_types_terms.json", "category": "Certification Types"},
+    {"file": "certificates_terms.json", "category": "Certifications"},
+    {"file": "FAA_offices_terms.json", "category": "FAA Offices"},
+    {"file": "flight_operations_terms.json", "category": "Flight Operations"},
+    {"file": "flight_rules_terms.json", "category": "Flight Rules"},
+    {"file": "medical_certification_terms.json", "category": "Medical Certification"},
+    {"file": "medical_terms_terms.json", "category": "Medical Terms"}
+  ]
+}
