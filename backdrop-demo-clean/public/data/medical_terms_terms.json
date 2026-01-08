@@ -1,0 +1,44 @@
+[
+    {
+        "id": "1",
+        "name": "HbA1c",
+        "description": "Hemoglobin A1c: Blood Sugar control measure",
+        "med_cert_importance": "Critical measurement for diabetus management in aviation",
+        "category": "Medical Terms"
+    },
+    {
+        "id": "2",
+        "name": "EKG/ECG",
+        "description": "Electrocardiogram- Heart rhythm test",
+        "med_cert_importance": "Required for many cardiac conditions and age-related examinations",
+        "category": "Medical Terms"
+    },
+    {
+        "id": "3",
+        "name": "CPAP",
+        "description": "Continuous Positive Airway Pressure- Sleep apnea treatment",
+        "med_cert_importance": "Common treatment that requires special issuance documentation",
+        "category": "Medical Terms"
+    },
+    {
+        "id": "4",
+        "name": "SSRI",
+        "description": "Selective Serotonin Reuptake Inhibitor- Antidepressant medication",
+        "med_cert_importance": "Most commonly approved class of antidepressants for pilots",
+        "category": "Medical Terms"
+    },
+    {
+        "id": "5",
+        "name": "BMI",
+        "description": "Body Mass Index- Weight-to-Height ratio",
+        "med_cert_importance": "Used to assess obesity-related health risks in aviation",
+        "category": "Medical Terms"
+    },
+    {
+        "id": "6",
+        "name": "BP",
+        "description": "Blood Pressure- Cardiovascular measurement",
+        "med_cert_importance": "Critical vital sign monitored at every medical examination",
+        "category": "Medical Terms"
+    }
+]

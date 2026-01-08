@@ -1,0 +1,30 @@
+[
+    {
+        "id": "1",
+        "name": "CFI",
+        "description": "Certified Flight Instructor",
+        "med_cert_importance": "Pilot certified to provide flight instruction",
+        "category": "Certifications"
+    },
+    {
+        "id": "2",
+        "name": "PPL",
+        "description": "Private Pilot License",
+        "med_cert_importance": "Entry-level pilot certificate for recreational flying",
+        "category": "Certifications"
+    },
+    {
+        "id": "3",
+        "name": "CPL",
+        "description": "Commercial Pilot License",
+        "med_cert_importance": "Professional pilot certificate for commercial operations",
+        "category": "Certifications"
+    },
+    {
+        "id": "4",
+        "name": "ATP",
+        "description": "Airline Transport Pilot",
+        "med_cert_importance": "Highest level pilot certificate for airline operations",
+        "category": "Certifications"
+    }
+]

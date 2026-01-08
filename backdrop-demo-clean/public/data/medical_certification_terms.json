@@ -1,0 +1,86 @@
+[
+    {
+        "id": "1",
+        "name": "AME",
+        "description": "Aviation Medical Examiner: FAA-designated physician who performs pilot medical examinations.",
+        "med_cert_importance": "Conducts medical examinations and issues medical certificates for pilots.",
+        "category": "Medical Certification"
+    },
+    {
+        "id": "2",
+        "name": "SI",
+        "description": "Issuance of a certificate to fly with specific medical conditions.",
+        "med_cert_importance": "Allows pilots with disqualifying conditions to obtain certification with restrictions or under specific conditions.",
+        "category": "Medical Certification"
+    },
+    {
+        "id": "3",
+        "name": "BasicMed",
+        "description": "Alternative medical certification for certain operations.",
+        "med_cert_importance": " Simplifies medical certification using personal physician instead of AME.",
+        "category": "Medical Certification"
+    },
+    {
+        "id": "4",
+        "name": "Aerospace medical dispositions",
+        "description": "These are FAA-defined outcomes or decisions that guide how specific medical conditions should be evaluated. They outline what an examiner should do when a condition is found.",
+        "med_cert_importance": "They determine whether a pilot can be issued a medical certificate, requires more testing, needs a special issuance, or must be deferred.",
+        "category": "Medical Certification"
+    },
+    {
+        "id": "5",
+        "name": "Protocols",
+        "description": "Protocols are standardized procedures that guide how medical evaluations should be performed. They ensure pilots are assessed consistently.",
+        "med_cert_importance": "They help ensure medical exams follow FAA-approved methods so every applicant is judged under uniform safety standards.",
+        "category": "Medical Certification"
+    },
+    {
+        "id": "6",
+        "name": "AME Assisted Special Issuance (AASI)",
+        "description": "A process allowing an AME to renew a medical certificate for pilots with certain conditions after the FAA initially grants a Special Issuance. It simplifies renewals for stable conditions.",
+        "med_cert_importance": "It allows pilots with long-term but stable medical issues to continue flying without needing a full FAA review every time.",
+        "category": "Medical Certification"
+    },
+    {
+        "id": "7",
+        "name": "FAA Form 8500",
+        "description": "The official application form that pilots complete before undergoing an FAA medical exam. It includes medical history questions used in certification decisions.",
+        "med_cert_importance": "It forms the basis of the pilot's medical record and determines what conditions or testing must be reviewed.",
+        "category": "Medical Certification"
+    },
+    {
+        "id": "8",
+        "name": "Eligibility for medical certification",
+        "description": "A pilot's ability to meet FAA medical standards needed to safely operate an aircraft. Eligibility depends on health history, exam findings, and FAA requirements.",
+        "med_cert_importance": "Determines whether a pilot can legally fly. Failing to meet requirements may lead to deferral, denial, or a special issuance.",
+        "category": "Medical Certification"
+    },
+    {
+        "id": "9",
+        "name": "Authorization of Special Issuance",
+        "description": "An FAA authorization that allows a pilot with an otherwise disqualifying medical condition to fly if they demonstrate adequate safety and control of the condition.",
+        "med_cert_importance": "It enables pilots with significant but stable or well-controlled medical issues to maintain certification under strict monitoring.",
+        "category": "Medical Certification"
+    },
+    {
+        "id": "10",
+        "name": "Statement of Demonstrated Ability (SODA)",
+        "description": "A document issued by the FAA when a pilot has specific stable, non-progressive, medical conditions that does not worsen over time. It serves as long-term approval.",
+        "med_cert_importance": "Allows pilots to avoid repeated reevaluation for certain stable conditions and continue flying without new special issuances.",
+        "category": "Medical Certification"
+    },
+    {
+        "id": "11",
+        "name": "Deferral",
+        "description": "When an AME sends a medical application to the FAA for further review instead of issuing or denying it. This happens when more information is required.",
+        "med_cert_importance": "It prevents incorrect or unsafe decisions by involving FAA experts when a medical issue is unclear or borderline.",
+        "category": "Medical Certification"
+    },
+    {
+        "id": "12",
+        "name": "Denial",
+        "description": "A formal FAA decision that an applicant does not meet the medical standards required to hold a pilot certificate.",
+        "med_cert_importance": "Stops a pilot from exercising flying privileges and requires significant documentation or recovery before reapplying.",
+        "category": "Medical Certification"
+    } 
+]

@@ -2,17 +2,25 @@
 :root{
     --topBar:#1d2631;
     --brandBlue:#243e90;
+    --brandBlueHover:#1f3681;
     --navChip:#eef2f6;
     --divider:#eceff3;
     --sidebarItem:#f3f5f8;
     --panelRight:#dde2e9;
     --cardWhite:#ffffff;
+    --cardGray: #e5e7eb;
     --blueA:#3B82F6;   /* primary blue */
     --blueB:#2563EB;   /* secondary blue */
     --rowBg:#eff2f5;
     --rowBar:#cfd6de;
+    --rowBarBorder:#c1cad3;
     --rowSquare:#bcc7df;
     --page:#ffffff;
+    --placeholder: #a9a9a9;
+    --caret: #2d2d2e;
+
+    --whitetext: #ffffff;
+    --blacktext: #111111;
 }
 
 /*--------- Base Styles ---------*/
@@ -87,6 +95,15 @@ body{
     height:300px;
     background:var(--cardWhite);
     border-radius:3px
+}
+
+.card-outer {
+    display: flex;
+    flex-direction: column;
+    background: var(--cardGray);
+    padding: 24px;
+    border-radius: 6px;
+    gap: 16px;
 }
 
 .rpanel{
