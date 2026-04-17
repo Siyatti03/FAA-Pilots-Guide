@@ -1,9 +1,0 @@
-[
-    {
-        "id": "1",
-        "name": "PIC",
-        "description": "Pilot in Command",
-        "med_cert_importance": "Pilot responsible for the safety and operation of the aircraft",
-        "category": "Flight Operations"
-    }
-]
