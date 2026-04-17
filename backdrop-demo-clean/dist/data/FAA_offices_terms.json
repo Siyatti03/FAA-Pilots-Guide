@@ -1,0 +1,23 @@
+[
+    {
+        "id": "1",
+        "name": "AMCD",
+        "description": "Aerospace Medical Certification Division",
+        "med_cert_importance": "Processes special issuance applications and complex medical cases",
+        "category": "FAA Offices"
+    },
+    {
+        "id": "2",
+        "name": "RFS",
+        "description": "Regional Flight Surgeon",
+        "med_cert_importance": "Senior AME who reviews a region;'s medical certification issues",
+        "category": "FAA Offices"
+    },
+    {
+        "id": "3",
+        "name": "FAS",
+        "description": "Federal Air Surgeon",
+        "med_cert_importance": "Chief medical officer in the FAA, makes final medical policy decisions",
+        "category": "FAA Offices"
+    }
+]

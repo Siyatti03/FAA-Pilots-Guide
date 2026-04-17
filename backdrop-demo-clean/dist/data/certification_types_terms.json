@@ -1,0 +1,23 @@
+[
+    {
+        "id": "1",
+        "name": "1st Class",
+        "description": "First Class Medical Certification- Required for airline transport pilots",
+        "med_cert_importance": "Most scrict medical standards for commercial airline operations",
+        "category": "Certification Types"
+    },
+    {
+        "id": "2",
+        "name": "2nd Class",
+        "description": "Second Class Medical Certification- Required for commercial pilots",
+        "med_cert_importance": "Intermediate medical standards for commercial operations",
+        "category": "Certification Types"
+    },
+    {
+        "id": "3",
+        "name": "3rd Class",
+        "description": "Third Class Medical Certification- Required for private pilots",
+        "med_cert_importance": "Basic medical standards for recreational and private flying",
+        "category": "Certification Types"
+    }
+]

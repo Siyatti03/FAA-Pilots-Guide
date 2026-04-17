@@ -1,0 +1,16 @@
+[
+    {
+        "id": "1",
+        "name": "IFR",
+        "description": "Instrument Flight Rules",
+        "med_cert_importance": "Flying in weather conditions requiring instruments",
+        "category": "Flight Rules"
+    },
+    {
+        "id": "2",
+        "name": "VFR",
+        "description": "Visual Flight Rules",
+        "med_cert_importance": "Flying in clear weather using visual references",
+        "category": "Flight Rules"
+    }
+]
